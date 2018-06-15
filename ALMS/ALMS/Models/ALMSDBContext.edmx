@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EntityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BA01A">
+          <Key>
+            <PropertyRef Name="BA01A_ID" />
+          </Key>
+          <Property Name="BA01A_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ACC_NO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ACC_NM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LEV_QT" Type="int" />
+          <Property Name="DA01A_ID" Type="int" />
+          <Property Name="SMO_YN" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="DA02A_ID" Type="int" />
+          <Property Name="DEP_YN" Type="char" MaxLength="1" />
+          <Property Name="OBJ_YN" Type="char" MaxLength="1" />
+          <Property Name="DAT_YN" Type="char" MaxLength="1" />
+          <Property Name="PRJ_YN" Type="char" MaxLength="1" />
+          <Property Name="CREATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UPDATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="ACT_YN" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="BA02A">
+          <Key>
+            <PropertyRef Name="BA02A_ID" />
+          </Key>
+          <Property Name="BA02A_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CPN_NO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CPN_NM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SRT_NM" Type="nvarchar" MaxLength="50" />
+          <Property Name="EIN_NO" Type="varchar" MaxLength="20" />
+          <Property Name="ADD_D1" Type="nvarchar" MaxLength="70" />
+          <Property Name="ADD_D2" Type="nvarchar" MaxLength="70" />
+          <Property Name="CREATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UPDATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="ACT_YN" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="BA02B">
+          <Key>
+            <PropertyRef Name="BA02B_ID" />
+          </Key>
+          <Property Name="BA02B_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BA02A_ID" Type="int" Nullable="false" />
+          <Property Name="CUS_NO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CUS_NM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TEL_NO" Type="varchar" MaxLength="30" />
+          <Property Name="HND_NO" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UPDATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="ACT_YN" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="BA03A">
+          <Key>
+            <PropertyRef Name="BA03A_ID" />
+          </Key>
+          <Property Name="BA03A_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DEP_NO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="DEP_NM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CREATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UPDATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="ACT_YN" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="BA04A">
+          <Key>
+            <PropertyRef Name="BA04A_ID" />
+          </Key>
+          <Property Name="BA04A_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SET_NO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="SET_NM" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CREATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UPDATE_USER" Type="varchar" MaxLength="30" />
+          <Property Name="UPDATE_DATE" Type="datetime" />
+          <Property Name="ACT_YN" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="EntityModelStoreContainer">
+          <EntitySet Name="BA01A" EntityType="Self.BA01A" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA02A" EntityType="Self.BA02A" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA02B" EntityType="Self.BA02B" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA03A" EntityType="Self.BA03A" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BA04A" EntityType="Self.BA04A" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EntityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BA01A">
+          <Key>
+            <PropertyRef Name="BA01A_ID" />
+          </Key>
+          <Property Name="BA01A_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ACC_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ACC_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LEV_QT" Type="Int32" />
+          <Property Name="DA01A_ID" Type="Int32" />
+          <Property Name="SMO_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DA02A_ID" Type="Int32" />
+          <Property Name="DEP_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="OBJ_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DAT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PRJ_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CREATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BA02A">
+          <Key>
+            <PropertyRef Name="BA02A_ID" />
+          </Key>
+          <Property Name="BA02A_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CPN_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CPN_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SRT_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EIN_NO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ADD_D1" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="ADD_D2" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="CREATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BA02B">
+          <Key>
+            <PropertyRef Name="BA02B_ID" />
+          </Key>
+          <Property Name="BA02B_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BA02A_ID" Type="Int32" Nullable="false" />
+          <Property Name="CUS_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUS_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TEL_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HND_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BA03A">
+          <Key>
+            <PropertyRef Name="BA03A_ID" />
+          </Key>
+          <Property Name="BA03A_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DEP_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DEP_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BA04A">
+          <Key>
+            <PropertyRef Name="BA04A_ID" />
+          </Key>
+          <Property Name="BA04A_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SET_NO" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SET_NM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDATE_USER" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UPDATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACT_YN" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="ALMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BA01A" EntityType="Self.BA01A" />
+          <EntitySet Name="BA02A" EntityType="Self.BA02A" />
+          <EntitySet Name="BA02B" EntityType="Self.BA02B" />
+          <EntitySet Name="BA03A" EntityType="Self.BA03A" />
+          <EntitySet Name="BA04A" EntityType="Self.BA04A" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EntityModelStoreContainer" CdmEntityContainer="ALMSEntities">
+          <EntitySetMapping Name="BA01A">
+            <EntityTypeMapping TypeName="EntityModel.BA01A">
+              <MappingFragment StoreEntitySet="BA01A">
+                <ScalarProperty Name="BA01A_ID" ColumnName="BA01A_ID" />
+                <ScalarProperty Name="ACC_NO" ColumnName="ACC_NO" />
+                <ScalarProperty Name="ACC_NM" ColumnName="ACC_NM" />
+                <ScalarProperty Name="LEV_QT" ColumnName="LEV_QT" />
+                <ScalarProperty Name="DA01A_ID" ColumnName="DA01A_ID" />
+                <ScalarProperty Name="SMO_YN" ColumnName="SMO_YN" />
+                <ScalarProperty Name="DA02A_ID" ColumnName="DA02A_ID" />
+                <ScalarProperty Name="DEP_YN" ColumnName="DEP_YN" />
+                <ScalarProperty Name="OBJ_YN" ColumnName="OBJ_YN" />
+                <ScalarProperty Name="DAT_YN" ColumnName="DAT_YN" />
+                <ScalarProperty Name="PRJ_YN" ColumnName="PRJ_YN" />
+                <ScalarProperty Name="CREATE_USER" ColumnName="CREATE_USER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UPDATE_USER" ColumnName="UPDATE_USER" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="ACT_YN" ColumnName="ACT_YN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA02A">
+            <EntityTypeMapping TypeName="EntityModel.BA02A">
+              <MappingFragment StoreEntitySet="BA02A">
+                <ScalarProperty Name="BA02A_ID" ColumnName="BA02A_ID" />
+                <ScalarProperty Name="CPN_NO" ColumnName="CPN_NO" />
+                <ScalarProperty Name="CPN_NM" ColumnName="CPN_NM" />
+                <ScalarProperty Name="SRT_NM" ColumnName="SRT_NM" />
+                <ScalarProperty Name="EIN_NO" ColumnName="EIN_NO" />
+                <ScalarProperty Name="ADD_D1" ColumnName="ADD_D1" />
+                <ScalarProperty Name="ADD_D2" ColumnName="ADD_D2" />
+                <ScalarProperty Name="CREATE_USER" ColumnName="CREATE_USER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UPDATE_USER" ColumnName="UPDATE_USER" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="ACT_YN" ColumnName="ACT_YN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA02B">
+            <EntityTypeMapping TypeName="EntityModel.BA02B">
+              <MappingFragment StoreEntitySet="BA02B">
+                <ScalarProperty Name="BA02B_ID" ColumnName="BA02B_ID" />
+                <ScalarProperty Name="BA02A_ID" ColumnName="BA02A_ID" />
+                <ScalarProperty Name="CUS_NO" ColumnName="CUS_NO" />
+                <ScalarProperty Name="CUS_NM" ColumnName="CUS_NM" />
+                <ScalarProperty Name="TEL_NO" ColumnName="TEL_NO" />
+                <ScalarProperty Name="HND_NO" ColumnName="HND_NO" />
+                <ScalarProperty Name="CREATE_USER" ColumnName="CREATE_USER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UPDATE_USER" ColumnName="UPDATE_USER" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="ACT_YN" ColumnName="ACT_YN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA03A">
+            <EntityTypeMapping TypeName="EntityModel.BA03A">
+              <MappingFragment StoreEntitySet="BA03A">
+                <ScalarProperty Name="BA03A_ID" ColumnName="BA03A_ID" />
+                <ScalarProperty Name="DEP_NO" ColumnName="DEP_NO" />
+                <ScalarProperty Name="DEP_NM" ColumnName="DEP_NM" />
+                <ScalarProperty Name="CREATE_USER" ColumnName="CREATE_USER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UPDATE_USER" ColumnName="UPDATE_USER" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="ACT_YN" ColumnName="ACT_YN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BA04A">
+            <EntityTypeMapping TypeName="EntityModel.BA04A">
+              <MappingFragment StoreEntitySet="BA04A">
+                <ScalarProperty Name="BA04A_ID" ColumnName="BA04A_ID" />
+                <ScalarProperty Name="SET_NO" ColumnName="SET_NO" />
+                <ScalarProperty Name="SET_NM" ColumnName="SET_NM" />
+                <ScalarProperty Name="CREATE_USER" ColumnName="CREATE_USER" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UPDATE_USER" ColumnName="UPDATE_USER" />
+                <ScalarProperty Name="UPDATE_DATE" ColumnName="UPDATE_DATE" />
+                <ScalarProperty Name="ACT_YN" ColumnName="ACT_YN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
