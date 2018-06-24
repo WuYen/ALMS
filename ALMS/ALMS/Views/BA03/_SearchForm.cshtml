@@ -1,0 +1,40 @@
+﻿<div>
+    <form id="SearchForm" style="margin-right:2px">
+        @Html.DevExpress().FormLayout(
+         settings =>
+         {
+             settings.Width = 800;
+             FormLayoutHelper.GetSearchSetting(settings, "Search", 3, 600);
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "S_DEP_NO";
+                 i.Caption = "代號";
+                 FormLayoutHelper.SetTextBox(i);
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "S_DEP_NM";
+                 i.Caption = "名稱";
+                 FormLayoutHelper.SetTextBox(i);
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "ApplyFilter";
+                 i.ShowCaption = DefaultBoolean.False;
+                 i.NestedExtension().Button(s =>
+                 {
+                     s.Width = 120;
+                     DevCommonHelper.SetButtonSetting(s, BtnType.Filter);
+                     s.ClientSideEvents.Click = "ApplyFilterlick";
+                     s.Styles.Style.Paddings.Padding = 0;
+                     s.Styles.Style.CssClass = "FilterButton";
+                 });
+             });
+
+         }).GetHtml()
+    </form>
+</div>
+

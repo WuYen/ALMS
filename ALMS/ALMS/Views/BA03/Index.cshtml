@@ -1,0 +1,60 @@
+﻿<script src="~/Scripts/Share/GridHeight.js" idx='3'></script>
+<script>
+    function ApplyFilterlick(s, e) {
+        GridView.PerformCallback();
+    }
+
+    function ToolBarClick(s, e) {
+        if (e.item.name == "Add") {
+            GridView.AddNewRow();
+        }
+        else if (e.item.name == "Edit") {
+            GridView.callbackCustomArgs["Edit_key"] = GridView.GetRowKey(GridView.GetFocusedRowIndex());
+            GridView.StartEditRow(GridView.GetFocusedRowIndex());
+        }
+        else if (e.item.name == "Delete") {
+            alertify.confirm('刪除', '確認刪除?'
+                , function () {
+                    GridView.DeleteRow(GridView.GetFocusedRowIndex());
+                }
+                , function () {
+                    alertify.error('取消');
+                });
+        }
+    }
+
+    function GridViewBegCallback(s, e) {
+        GridView.callbackCustomArgs["search"] = $.extend(GridView.callbackCustomArgs["search"], MVCxClientUtils.GetSerializedEditorValuesInContainer("SearchForm", true));
+
+        var container = $("body");
+        var token = $('input[name="__RequestVerificationToken"]', container).val();
+        GridView.callbackCustomArgs["__RequestVerificationToken"] = token;
+    }
+
+    function GridViewEndCallback(s, e) {
+        if (s.cpSuccess != null && s.cpSuccess == true) {
+            ShowSuccess();
+        } else {
+            ShowError(s.cpErrMsg);//operation for call back
+        }
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px">
+    @{
+        Html.RenderPartial("_SearchForm");
+    }
+</div>
+
+<div style="margin:10px">
+    @Html.Partial("~/Views/Shared/_EditToolBar.cshtml", new ALMS.ViewModels.EditToolBar())
+</div>
+
+<div style="margin:10px;margin-bottom:0px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+        Html.RenderAction("Grid");
+    }
+</div>
+

@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="UTF-8" />
     <title>@ViewBag.Title</title>
 
-    
+
     @Html.DevExpress().GetStyleSheets(
-        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
-        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
-    )
-    @Html.DevExpress().GetScripts( 
-        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-        new Script { ExtensionSuite = ExtensionSuite.Editors },
-        new Script { ExtensionSuite = ExtensionSuite.GridView }
-    )
+            new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+            new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+        )
+    @Html.DevExpress().GetScripts(
+            new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+            new Script { ExtensionSuite = ExtensionSuite.Editors },
+            new Script { ExtensionSuite = ExtensionSuite.GridView }
+        )
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <script src="~/Scripts/alertify.min.js"></script>
 </head>
 <body>
-    @Html.DevExpress().Splitter(settings => {
+    @Html.DevExpress().Splitter(settings =>
+    {
         settings.Name = "MainSplitter";
         settings.AllowResize = false;
         settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
@@ -28,17 +31,20 @@
         settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
         settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
 
-        settings.Panes.Add(pane => {
+        settings.Panes.Add(pane =>
+        {
             pane.Name = "Header";
             pane.AutoHeight = true;
             pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
             pane.PaneStyle.CssClass = "headerPane";
-            pane.SetContent(() => {
+            pane.SetContent(() =>
+            {
                 Html.RenderPartial("HeaderPartialView");
             });
         });
 
-        settings.Panes.Add(pane => {
+        settings.Panes.Add(pane =>
+        {
             pane.Name = "Content";
             pane.PaneStyle.CssClass = "mainContentPane";
             pane.MinSize = System.Web.UI.WebControls.Unit.Pixel(375);
@@ -47,14 +53,31 @@
             pane.SetContent(RenderBody().ToHtmlString());
         });
 
-        settings.Panes.Add(pane => {
+        settings.Panes.Add(pane =>
+        {
             pane.Name = "Footer";
             pane.Size = System.Web.UI.WebControls.Unit.Pixel(125);
             pane.PaneStyle.CssClass = "footerPane";
-            pane.SetContent(() => {
+            pane.SetContent(() =>
+            {
                 Html.RenderPartial("FooterPartialView");
             });
         });
     }).GetHtml()
+    <script>
+        $(function () {
+            alertify.set('notifier', 'position', 'bottom-center');
+        });
+
+        function ShowError(msg) {
+            if (msg != null && msg.length > 1) {
+                alertify.error(msg);
+            }
+        }
+
+        function ShowSuccess() {
+            alertify.success("Success");
+        }
+    </script>
 </body>
 </html>

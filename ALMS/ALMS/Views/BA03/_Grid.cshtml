@@ -1,0 +1,45 @@
+﻿@model System.Collections.IEnumerable
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        GridHelper.GetSingleBasicSetting(settings, "GridView", "BA03", "Grid");
+        
+        settings.KeyFieldName = "BA03A_ID";
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEP_NO";
+            column.Caption = "代號";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEP_NM";
+            column.Caption = "名稱";
+        });
+
+        settings.SetEditFormTemplateContent(c =>
+        {
+            if (ViewData["ErrorData"] != null)
+            {
+                Html.RenderPartial("_EditForm", ViewData["ErrorData"]);
+            }
+            else
+            {
+                var item = c.Grid.GetRow(c.Grid.EditingRowVisibleIndex) as ALMS.ViewModels.BA03.BA03AModel;
+                Html.RenderAction("EditForm", item);
+            }
+        });
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpSuccess"] = ViewData["Success"];
+        };
+
+    }).Bind(Model).GetHtml()
+
+
+
+
+

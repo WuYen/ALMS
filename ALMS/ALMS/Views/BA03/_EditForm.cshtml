@@ -1,0 +1,58 @@
+﻿@model ALMS.ViewModels.BA03.BA03AModel
+        
+@Html.DevExpress().TextBoxFor(x => x.BA03A_ID, s => { s.ClientVisible = false; }).GetHtml()
+@Html.DevExpress().FormLayout(settings =>
+{
+    FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DEP_NO", "代號");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DEP_NM", "名稱");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+    settings.Items.AddEmptyItem();
+
+    settings.Items.Add(i =>
+    {
+        i.ShowCaption = DefaultBoolean.False;
+        i.Width = Unit.Percentage(100);
+        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+    }).SetNestedContent(() =>
+    {
+        ViewContext.Writer.Write("<div style='float:right;padding-right: 26px;'>");
+        Html.DevExpress().Button(
+            btnSettings =>
+            {
+                btnSettings.Name = "btnUpdate";
+                DevCommonHelper.SetButtonSetting(btnSettings, BtnType.Save);
+                btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.UpdateEdit(); }";
+            }).Render();
+        Html.DevExpress().Button(
+            btnSettings =>
+            {
+                btnSettings.Name = "btnCancel";
+                DevCommonHelper.SetButtonSetting(btnSettings, BtnType.Cancel);
+                btnSettings.Style[HtmlTextWriterStyle.MarginLeft] = "5px";
+                btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.CancelEdit(); }";
+            }).Render();
+        ViewContext.Writer.Write("</div>");
+    });
+
+}).Bind(Model).GetHtml()
+
+
+

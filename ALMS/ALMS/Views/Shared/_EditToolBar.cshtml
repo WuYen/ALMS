@@ -1,0 +1,33 @@
+﻿@model ALMS.ViewModels.EditToolBar
+
+@Html.DevExpress().Menu(
+    settings =>
+    {
+        MenuHelper.GetToolBarSetting(settings, Model.ClickEventName);
+        settings.Items.Add(i =>
+        {
+            i.Name = "Add";
+            i.Image.IconID = "actions_additem_16x16";
+            i.Visible = Model.ShowAdd;
+            i.Text = "Add";
+        });
+        settings.Items.Add(i =>
+        {
+            i.Name = "Edit";
+            i.Image.IconID = "edit_edit_16x16office2013";
+            i.Visible = Model.ShowEdit;
+            i.Text = "Edit";
+        });
+        settings.Items.Add(i =>
+        {
+            i.Name = "Delete";
+            i.Image.IconID = "edit_delete_16x16office2013";
+            i.Visible = Model.ShowDelete;
+            i.Text = "Delete";
+        });
+    }).GetHtml()
+
+@*
+    使用範例,沒有action直接用partial view
+    @Html.Partial("~/Views/Shared/_EditToolBar.cshtml", new WIHO.ViewModels.Shared.EditToolBar())
+*@
