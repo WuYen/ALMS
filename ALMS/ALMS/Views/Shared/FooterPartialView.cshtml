@@ -2,8 +2,5 @@
     
 </div>
 <div class="copyright">
-    @Html.DevExpress().Label(settings => {
-        settings.EncodeHtml = false;
-        settings.Text = DateTime.Now.Year + " &copy; Copyright by [company name]";
-    }).GetHtml()
+    @DateTime.Now.Year &copy; Copyright by JW
 </div>

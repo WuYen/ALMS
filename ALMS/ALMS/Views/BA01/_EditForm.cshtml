@@ -1,0 +1,146 @@
+﻿@model ALMS.ViewModels.BA01.BA01AModel
+
+@Html.DevExpress().TextBoxFor(x => x.BA01A_ID, s => { s.ClientVisible = false; }).GetHtml()
+@Html.DevExpress().FormLayout(settings =>
+{
+    FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "ACC_NO", "科目代號");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "ACC_NM", "科目名稱");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "LEV_QT", "級數");
+        i.NestedExtension().SpinEdit(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DA01A_ID", "餘額");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.ValueField = "DA01A_ID";
+            s.Properties.TextField = "ITM_NM";
+            s.Properties.ValueType = typeof(int);
+            s.Properties.DataSource = ALMS.Utilities.CacheCommonDataModule.GetDA01A();
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "SMO_YN", "傳票");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.Items.Add("Y", "Y");
+            s.Properties.Items.Add("N", "N");
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DA02A_ID", "費用");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.ValueField = "DA02A_ID";
+            s.Properties.TextField = "ITM_NM";
+            s.Properties.ValueType = typeof(int);
+            s.Properties.DataSource = ALMS.Utilities.CacheCommonDataModule.GetDA02A();
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DEP_YN", "部門");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.Items.Add("Y", "Y");
+            s.Properties.Items.Add("N", "N");
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "OBJ_YN", "對象");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.Items.Add("Y", "Y");
+            s.Properties.Items.Add("N", "N");
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DAT_YN", "日期");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.Items.Add("Y", "Y");
+            s.Properties.Items.Add("N", "N");
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "PRJ_YN", "專案");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.Items.Add("Y", "Y");
+            s.Properties.Items.Add("N", "N");
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        i.ShowCaption = DefaultBoolean.False;
+        i.Width = Unit.Percentage(100);
+        i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+    }).SetNestedContent(() =>
+    {
+        ViewContext.Writer.Write("<div style='float:right;padding-right: 26px;'>");
+        Html.DevExpress().Button(
+            btnSettings =>
+            {
+                btnSettings.Name = "btnUpdate";
+                DevCommonHelper.SetButtonSetting(btnSettings, BtnType.Save);
+                btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.UpdateEdit(); }";
+            }).Render();
+        Html.DevExpress().Button(
+            btnSettings =>
+            {
+                btnSettings.Name = "btnCancel";
+                DevCommonHelper.SetButtonSetting(btnSettings, BtnType.Cancel);
+                btnSettings.Style[HtmlTextWriterStyle.MarginLeft] = "5px";
+                btnSettings.ClientSideEvents.Click = "function(s, e){ GridView.CancelEdit(); }";
+            }).Render();
+        ViewContext.Writer.Write("</div>");
+    });
+
+}).Bind(Model).GetHtml()
+
+
+

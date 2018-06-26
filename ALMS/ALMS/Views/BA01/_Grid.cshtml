@@ -1,0 +1,99 @@
+﻿@model System.Collections.IEnumerable
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        GridHelper.GetSingleBasicSetting(settings, "GridView", "BA01", "Grid");
+
+        settings.KeyFieldName = "BA01A_ID";
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NO";
+            column.Caption = "科目代號";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NM";
+            column.Caption = "科目名稱";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LEV_QT";
+            column.Caption = "級數";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DA01A_ID";
+            column.Caption = "餘額";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "DA01A_ID";
+                p.TextField = "ITM_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = ALMS.Utilities.CacheCommonDataModule.GetDA01A();
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "SMO_YN";
+            column.Caption = "傳票";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DA02A_ID";
+            column.Caption = "費用";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "DA02A_ID";
+                p.TextField = "ITM_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = ALMS.Utilities.CacheCommonDataModule.GetDA02A();
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEP_YN";
+            column.Caption = "部門";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "OBJ_YN";
+            column.Caption = "對象";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DAT_YN";
+            column.Caption = "日期";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "PRJ_YN";
+            column.Caption = "專案";
+        });
+
+        settings.SetEditFormTemplateContent(c =>
+        {
+            if (ViewData["ErrorData"] != null)
+            {
+                Html.RenderPartial("_EditForm", ViewData["ErrorData"]);
+            }
+            else
+            {
+                var item = c.Grid.GetRow(c.Grid.EditingRowVisibleIndex) as ALMS.ViewModels.BA01.BA01AModel;
+                Html.RenderAction("EditForm", item);
+            }
+        });
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpSuccess"] = ViewData["Success"];
+        };
+
+    }).Bind(Model).GetHtml()
+
+
+
+
+

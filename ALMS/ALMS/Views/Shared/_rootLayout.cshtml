@@ -22,48 +22,50 @@
 </head>
 <body>
     @Html.DevExpress().Splitter(settings =>
+{
+    settings.Name = "MainSplitter";
+    settings.AllowResize = false;
+    settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+    settings.FullscreenMode = true;
+    settings.SeparatorVisible = false;
+    settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+    settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
+
+    settings.Panes.Add(pane =>
     {
-        settings.Name = "MainSplitter";
-        settings.AllowResize = false;
-        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
-        settings.FullscreenMode = true;
-        settings.SeparatorVisible = false;
-        settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
-        settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
-
-        settings.Panes.Add(pane =>
+        pane.Name = "Header";
+        pane.AutoHeight = true;
+        pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        pane.PaneStyle.BorderBottom.BorderColor = System.Drawing.ColorTranslator.FromHtml("#c0c0c0");
+        pane.PaneStyle.CssClass = "headerPane";
+        pane.SetContent(() =>
         {
-            pane.Name = "Header";
-            pane.AutoHeight = true;
-            pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
-            pane.PaneStyle.CssClass = "headerPane";
-            pane.SetContent(() =>
-            {
-                Html.RenderPartial("HeaderPartialView");
-            });
+            Html.RenderPartial("HeaderPartialView");
         });
+    });
 
-        settings.Panes.Add(pane =>
-        {
-            pane.Name = "Content";
-            pane.PaneStyle.CssClass = "mainContentPane";
-            pane.MinSize = System.Web.UI.WebControls.Unit.Pixel(375);
-            pane.PaneStyle.BackColor = System.Drawing.Color.White;
-            pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
-            pane.SetContent(RenderBody().ToHtmlString());
-        });
+    settings.Panes.Add(pane =>
+    {
+        pane.Name = "Content";
+        pane.PaneStyle.CssClass = "mainContentPane";
+        pane.MinSize = System.Web.UI.WebControls.Unit.Pixel(375);
+        pane.PaneStyle.BackColor = System.Drawing.Color.White;
+        pane.PaneStyle.BorderBottom.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(1);
+        pane.PaneStyle.BorderBottom.BorderColor = System.Drawing.ColorTranslator.FromHtml("#c0c0c0");
+        pane.SetContent(RenderBody().ToHtmlString());
+    });
 
-        settings.Panes.Add(pane =>
+    settings.Panes.Add(pane =>
+    {
+        pane.Name = "Footer";
+        pane.Size = System.Web.UI.WebControls.Unit.Pixel(30);
+        pane.PaneStyle.CssClass = "footerPane";
+        pane.SetContent(() =>
         {
-            pane.Name = "Footer";
-            pane.Size = System.Web.UI.WebControls.Unit.Pixel(125);
-            pane.PaneStyle.CssClass = "footerPane";
-            pane.SetContent(() =>
-            {
-                Html.RenderPartial("FooterPartialView");
-            });
+            Html.RenderPartial("FooterPartialView");
         });
-    }).GetHtml()
+    });
+}).GetHtml()
     <script>
         $(function () {
             alertify.set('notifier', 'position', 'bottom-center');

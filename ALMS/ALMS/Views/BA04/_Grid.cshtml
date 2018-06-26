@@ -3,19 +3,19 @@
 @Html.DevExpress().GridView(
     settings =>
     {
-        GridHelper.GetSingleBasicSetting(settings, "GridView", "BA03", "Grid");
+        GridHelper.GetSingleBasicSetting(settings, "GridView", "BA04", "Grid");
         
-        settings.KeyFieldName = "BA03A_ID";
+        settings.KeyFieldName = "BA04A_ID";
 
         settings.Columns.Add(column =>
         {
-            column.FieldName = "DEP_NO";
-            column.Caption = "部門代號";
+            column.FieldName = "SET_NO";
+            column.Caption = "帳套別代號";
         });
         settings.Columns.Add(column =>
         {
-            column.FieldName = "DEP_NM";
-            column.Caption = "部門名稱";
+            column.FieldName = "SET_NM";
+            column.Caption = "帳套別名稱";
         });
 
         settings.SetEditFormTemplateContent(c =>
@@ -26,7 +26,7 @@
             }
             else
             {
-                var item = c.Grid.GetRow(c.Grid.EditingRowVisibleIndex) as ALMS.ViewModels.BA03.BA03AModel;
+                var item = c.Grid.GetRow(c.Grid.EditingRowVisibleIndex) as ALMS.ViewModels.BA04.BA04AModel;
                 Html.RenderAction("EditForm", item);
             }
         });

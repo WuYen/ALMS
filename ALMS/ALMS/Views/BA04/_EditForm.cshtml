@@ -1,13 +1,13 @@
-﻿@model ALMS.ViewModels.BA03.BA03AModel
-        
-@Html.DevExpress().TextBoxFor(x => x.BA03A_ID, s => { s.ClientVisible = false; }).GetHtml()
+﻿@model ALMS.ViewModels.BA04.BA04AModel
+            
+@Html.DevExpress().TextBoxFor(x => x.BA04A_ID, s => { s.ClientVisible = false; }).GetHtml()
 @Html.DevExpress().FormLayout(settings =>
 {
     FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
 
     settings.Items.Add(i =>
     {
-        FormLayoutHelper.SetItemBasicSetting(i, "DEP_NO", "部門代號");
+        FormLayoutHelper.SetItemBasicSetting(i, "SET_NO", "帳套別代號");
         i.NestedExtension().TextBox(s =>
         {
             s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
@@ -17,7 +17,7 @@
 
     settings.Items.Add(i =>
     {
-        FormLayoutHelper.SetItemBasicSetting(i, "DEP_NM", "部門名稱");
+        FormLayoutHelper.SetItemBasicSetting(i, "SET_NM", "帳套別名稱");
         i.NestedExtension().TextBox(s =>
         {
             s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
