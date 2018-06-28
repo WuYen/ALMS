@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "廠商與客戶";
+}
+<style>
+    .dxbf {
+        border-width: 0px !important;
+    }
+</style>
+<script src="~/Scripts/Share/GridHeight.js" idx='3'></script>
+<script>
+    function ApplyFilterlick(s, e) {
+        GridView.PerformCallback();
+    }
+
+    function ToolBarClick(s, e) {
+        if (e.item.name == "Add") {
+            GetEditForm(0);
+        }
+        else if (e.item.name == "Edit") {
+            GetEditForm(GridView.GetRowKey(GridView.GetFocusedRowIndex()));
+        }
+        else if (e.item.name == "Delete") {
+            alertify.confirm('刪除', '確認刪除?'
+                , function () {
+                    //GridView.DeleteRow(GridView.GetFocusedRowIndex());
+                }
+                , function () {
+                    alertify.error('取消');
+                });
+        }
+    }
+
+    function GridViewBegCallback(s, e) {
+        GridView.callbackCustomArgs["search"] = $.extend(GridView.callbackCustomArgs["search"], MVCxClientUtils.GetSerializedEditorValuesInContainer("SearchForm", true));
+
+        var container = $("body");
+        var token = $('input[name="__RequestVerificationToken"]', container).val();
+        GridView.callbackCustomArgs["__RequestVerificationToken"] = token;
+    }
+
+    function GridViewEndCallback(s, e) {
+        if (s.cpSuccess != null && s.cpSuccess == true) {
+            ShowSuccess();
+        } else {
+            ShowError(s.cpErrMsg);//operation for call back
+        }
+    }
+
+    function GetEditForm(key) {
+        var form = $('<form></form>');
+        form.attr("method", "post");
+        form.attr("action", '@Url.Action("Edit", "BA02")');
+        var field = $('<input></input>');
+        field.attr("type", "hidden");
+        field.attr("name", "key");
+        field.attr("value", key);
+        form.append(field);
+        $(document.body).append(form);
+        form.submit();
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px; margin-right:12px">
+    @{
+        Html.RenderPartial("_SearchForm");
+    }
+</div>
+<div style="margin-top:10px;margin-left:10px; margin-right:10px">
+    @Html.Partial("~/Views/Shared/_EditToolBar.cshtml", new ALMS.ViewModels.EditToolBar())
+</div>
+
+<div style="margin:10px;margin-bottom:0px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+        Html.RenderAction("Grid", new { key = ViewData["selectedItem"] });
+    }
+</div>

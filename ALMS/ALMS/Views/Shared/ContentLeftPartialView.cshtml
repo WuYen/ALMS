@@ -9,6 +9,8 @@
     settings.ControlStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
     settings.Groups.Add(group => {
         group.Text = "基本資料";
+        group.Items.Add("會計科目").NavigateUrl = "/BA01/Index";
+        group.Items.Add("廠商與客戶").NavigateUrl = "/BA02/Index";
         group.Items.Add("部門").NavigateUrl="/BA03/Index";
         group.Items.Add("帳套別").NavigateUrl = "/BA04/Index";
         //group.Items.Add("Item 2");

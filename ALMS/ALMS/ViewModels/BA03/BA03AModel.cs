@@ -8,6 +8,7 @@ using ALMS.Models;
 
 namespace ALMS.ViewModels.BA03
 {
+    [MetadataType(typeof(BA03A_MD))]
     public class BA03AModel : BA03A
     {
         public ModelStateDictionary ModelState { get; set; }

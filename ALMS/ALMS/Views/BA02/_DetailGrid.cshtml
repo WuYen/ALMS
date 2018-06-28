@@ -1,0 +1,101 @@
+﻿@model List<ALMS.ViewModels.BA02.BA02BModel>
+
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        BatchGridHelper.GetBasicSetting(settings, "DetailGrid", "BA02", "DetailGrid");
+
+        settings.CustomActionRouteValues = new { Controller = "BA02", Action = "DetailGridBatchUpdate" };
+        settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "BA02", Action = "DetailGridBatchUpdate" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+        settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+        settings.SettingsEditing.BatchEditSettings.HighlightDeletedRows = true;
+        settings.SettingsEditing.BatchEditSettings.ShowConfirmOnLosingChanges = true;
+
+        BatchGridHelper.SetCommandColumn(settings, true);
+
+        settings.CommandColumn.SetHeaderTemplateContent(c =>
+        {
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "BtnDetailAddNew";
+                btn.ClientSideEvents.Click = "BtnDetailAddNewClick";
+                btn.Text = "新增";
+                btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
+                btn.Styles.Style.Paddings.PaddingTop = 0;
+                btn.Styles.Style.Paddings.PaddingBottom = 0;
+                btn.Styles.Style.Paddings.PaddingLeft = 0;
+                btn.Styles.Style.Paddings.PaddingRight = 0;
+            }).GetHtml();
+        });
+
+        settings.SettingsCommandButton.DeleteButton.Styles.Style.Paddings.Padding = 0;
+        settings.SettingsCommandButton.DeleteButton.Image.Url = "~/Content/Icon/delete_grey_18x18.png";
+        settings.SettingsCommandButton.DeleteButton.Text = "刪除";
+
+        settings.CommandColumn.ShowRecoverButton = true;
+
+        settings.SettingsCommandButton.RenderMode = GridCommandButtonRenderMode.Button;
+
+        settings.Settings.ShowFooter = false;
+
+        settings.KeyFieldName = "BA02B_ID";
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "CUS_NO", "客戶代號");
+            column.EditorProperties().TextBox(p =>
+            {
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "CUS_NM", "客戶名稱");
+            column.EditorProperties().TextBox(p =>
+            {
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "TEL_NO", "電話");
+            column.EditorProperties().TextBox(p =>
+            {
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "HND_NO", "行動電話");
+            column.EditorProperties().TextBox(p =>
+            {
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "IsValid";
+            column.Visible = false;
+        });
+
+        settings.ClientSideEvents.BeginCallback = "DetailGridBeginCallback";
+        settings.ClientSideEvents.EndCallback = "DetailGridEndCallBack";
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpDeleteIDs"] = ViewData["DeleteIDList"];
+            e.Properties["cpMasterForm"] = ViewData["MasterForm"];
+        };
+        settings.CommandButtonInitialize = (s, e) =>//隱藏grid footer 的savechange and cancel link text
+        {
+            if (e.ButtonType == ColumnCommandButtonType.Update || e.ButtonType == ColumnCommandButtonType.Cancel)
+            {
+                e.Visible = false;
+            }
+        };
+        settings.Settings.ShowStatusBar = GridViewStatusBarMode.Hidden;
+    });
+}
+@grid.Bind(Model).GetHtml()

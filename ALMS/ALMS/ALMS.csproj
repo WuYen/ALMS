@@ -218,6 +218,12 @@
     <Content Include="Views\BA01\_Grid.cshtml" />
     <Content Include="Views\BA01\_SearchForm.cshtml" />
     <Content Include="Views\BA01\Index.cshtml" />
+    <Content Include="Views\BA02\Edit.cshtml" />
+    <Content Include="Views\BA02\Index.cshtml" />
+    <Content Include="Views\BA02\_DetailGrid.cshtml" />
+    <Content Include="Views\BA02\_Grid.cshtml" />
+    <Content Include="Views\BA02\_MasterForm.cshtml" />
+    <Content Include="Views\BA02\_SearchForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -230,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BA01Controller.cs" />
+    <Compile Include="Controllers\BA02Controller.cs" />
     <Compile Include="Controllers\BA04Controller.cs" />
     <Compile Include="Controllers\BA03Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -282,16 +289,23 @@
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Utilities\CacheCommonDataModule.cs" />
     <Compile Include="Utilities\CacheHelper.cs" />
+    <Compile Include="Utilities\DevHelper\BatchGridHelper.cs" />
     <Compile Include="Utilities\DevHelper\DevCommonHelper.cs" />
     <Compile Include="Utilities\DevHelper\FormLayoutHelper.cs" />
     <Compile Include="Utilities\DevHelper\GridHelper.cs" />
     <Compile Include="Utilities\DevHelper\MenuHelper.cs" />
     <Compile Include="Utilities\ObjectHelper.cs" />
+    <Compile Include="Utilities\ReadViewHelper.cs" />
     <Compile Include="Utilities\ResultHelper.cs" />
     <Compile Include="ViewModels\BA01\BA01AModel.cs" />
     <Compile Include="ViewModels\BA01\Service\BA01Business.cs" />
     <Compile Include="ViewModels\BA01\Service\BA01Service.cs" />
     <Compile Include="ViewModels\BA01\ViewModel.cs" />
+    <Compile Include="ViewModels\BA02\BA02AModel.cs" />
+    <Compile Include="ViewModels\BA02\BA02BModel.cs" />
+    <Compile Include="ViewModels\BA02\Service\BA02Business.cs" />
+    <Compile Include="ViewModels\BA02\Service\BA02Service.cs" />
+    <Compile Include="ViewModels\BA02\ViewModel.cs" />
     <Compile Include="ViewModels\BA04\BA04AModel.cs" />
     <Compile Include="ViewModels\BA04\Service\BA04Business.cs" />
     <Compile Include="ViewModels\BA04\Service\BA04Service.cs" />

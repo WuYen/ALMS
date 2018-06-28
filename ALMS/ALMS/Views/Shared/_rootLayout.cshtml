@@ -7,17 +7,18 @@
 
 
     @Html.DevExpress().GetStyleSheets(
-            new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-            new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
-            new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
-        )
+                new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+            )
     @Html.DevExpress().GetScripts(
-            new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
-            new Script { ExtensionSuite = ExtensionSuite.Editors },
-            new Script { ExtensionSuite = ExtensionSuite.GridView }
-        )
+                new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+                new Script { ExtensionSuite = ExtensionSuite.Editors },
+                new Script { ExtensionSuite = ExtensionSuite.GridView }
+            )
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+    <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
     <script src="~/Scripts/alertify.min.js"></script>
 </head>
 <body>
@@ -69,8 +70,8 @@
     <script>
         $(function () {
             alertify.set('notifier', 'position', 'bottom-center');
+            alertify.confirm().set('labels', { ok: '確認', cancel: '取消' });
         });
-
         function ShowError(msg) {
             if (msg != null && msg.length > 1) {
                 alertify.error(msg);

@@ -1,0 +1,126 @@
+﻿@model int
+    
+@{
+    ViewBag.Title = "廠商與客戶-編輯";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+<script>
+    var keyOnPage = '@Model';
+    function ToolBarClick(s, e) {
+        if (e.item.name == "Save") {
+            Save();
+        }
+        else if (e.item.name == "Cancel") {
+            GoToIndex(keyOnPage);
+        }
+        else if (e.item.name == "Reload") {
+            GetEditForm(keyOnPage);
+        }
+    }
+
+    function GetEditForm(key) {
+        var form = $('<form></form>');
+        form.attr("method", "post");
+        form.attr("action", '@Url.Action("Edit", "BA02")');
+        var field = $('<input></input>');
+        field.attr("type", "hidden");
+        field.attr("name", "key");
+        field.attr("value", key);
+        form.append(field);
+        $(document.body).append(form);
+        form.submit();
+    }
+    function GoToIndex(key) {
+        var form = $('<form></form>');
+        form.attr("method", "post");
+        form.attr("action", '@Url.Action("RedirectIndex", "BA02")');
+        var field = $('<input></input>');
+        field.attr("type", "hidden");
+        field.attr("name", "key");
+        field.attr("value", key);
+        form.append(field);
+        $(document.body).append(form);
+        form.submit();
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px; margin-right:10px">
+    @Html.DevExpress().Menu(settings =>
+        {
+            settings.Name = "ToolBar";
+            DevCommonHelper.SetMenuSetting(settings);
+            settings.ClientSideEvents.ItemClick = "ToolBarClick";
+            settings.Items.Add(i =>
+            {
+                i.Name = "Save";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
+            });
+            settings.Items.Add(i =>
+            {
+                i.Name = "Cancel";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
+            });
+            settings.Items.Add(i =>
+            {
+                i.Name = "Reload";
+                i.Text = "重新整理";
+                i.Image.IconID = "actions_refresh2_16x16";
+            });
+        }).GetHtml()
+</div>
+
+<form id="MasterForm" style="margin-top:20px;margin-left:10px; margin-right:10px">
+    <div id="MasterFormDiv">
+        @{
+            Html.RenderPartial("_MasterForm", ViewData["Master"]);
+        }
+    </div>
+</form>
+
+<script>
+    function Save() {
+        $.validator.unobtrusive.parse("#MasterForm");
+        if ($("#MasterForm").valid()) {
+            DetailGrid.callbackCustomArgs["master"] = MVCxClientUtils.GetSerializedEditorValuesInContainer("MasterForm", true);
+
+            var container = $("body");
+            var token = $('input[name="__RequestVerificationToken"]', container).val();
+            DetailGrid.callbackCustomArgs["__RequestVerificationToken"] = token;
+
+            if (DetailGrid.batchEditApi.HasChanges()) {
+                DetailGrid.UpdateEdit();
+            }
+            else {
+                DetailGrid.PerformCallback();
+            }
+        }
+    }
+    function DetailGridBeginCallback(s, e) {
+        DetailGrid.callbackCustomArgs["key"] = "";
+    }
+    function DetailGridEndCallBack(s, e) {
+        if (s.cpErrMsg != undefined && s.cpErrMsg.length > 0) {
+            //formSave = false;
+            console.log("MasterError")
+            ShowError(s.cpErrMsg);
+            $("#MasterFormDiv").html(s.cpMasterForm);
+            if (s.cpDeleteIDs != undefined) {
+                var key = s.cpDeleteIDs.split(",");//把刪除的row重新標記刪除
+                for (var i = 0; i < key.length - 1; i++) {
+                    DetailGrid.DeleteRowByKey(key[i].toString());
+                }
+            }
+        }
+    }
+    function BtnDetailAddNewClick(s, e) {
+        DetailGrid.AddNewRow();
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px; margin-right:10px">
+    @{
+        Html.RenderPartial("_DetailGrid", ViewData["Detail"]);
+    }
+</div>
+

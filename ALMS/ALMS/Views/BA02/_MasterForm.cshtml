@@ -1,0 +1,69 @@
+﻿@model ALMS.ViewModels.BA02.BA02AModel
+
+@Html.DevExpress().TextBoxFor(x => x.BA02A_ID, s => { s.ClientVisible = false; }).GetHtml()
+@Html.DevExpress().FormLayout(settings =>
+{
+    FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "CPN_NO", "廠商代號");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "CPN_NM", "廠商名稱");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "SRT_NM", "廠商簡稱");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "EIN_NO", "統一編號");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "ADD_D1", "發票地址");
+        //i.Width = Unit.Percentage(50);
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "ADD_D2", "聯絡地址");
+        //i.Width = Unit.Percentage(50);
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+        });
+    });
+
+}).Bind(Model).GetHtml()

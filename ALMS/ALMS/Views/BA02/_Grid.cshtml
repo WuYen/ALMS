@@ -1,0 +1,53 @@
+﻿@model System.Collections.IEnumerable
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        GridHelper.GetSingleBasicSetting(settings, "GridView", "FA11PDV2", "Grid");
+
+        settings.KeyFieldName = "BA02A_ID";
+
+        settings.Columns.Add(
+        column =>
+        {
+            column.FieldName = "CPN_NO";
+            column.Caption = "廠商代號";
+        });
+        settings.Columns.Add(
+        column =>
+        {
+            column.FieldName = "CPN_NM";
+            column.Caption = "廠商名稱";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "SRT_NM";
+            column.Caption = "廠商簡稱";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EIN_NO";
+            column.Caption = "統一編號";
+        });
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpSuccess"] = ViewData["Success"];
+        };
+        settings.PreRender += (s, e) =>
+        {
+            MVCxGridView gridView = (MVCxGridView)s;
+            if (ViewData["selectedItem"] != null)
+            {
+                var rowIndex = gridView.FindVisibleIndexByKeyValue(ViewData["selectedItem"]);
+                if (rowIndex > -1)
+                {
+                    gridView.FocusedRowIndex = rowIndex;
+                    int pageIndex = 0;
+                    pageIndex = rowIndex / gridView.SettingsPager.PageSize;
+                    gridView.PageIndex = pageIndex;
+                }
+            }
+        };
+
+    }).Bind(Model).GetHtml()

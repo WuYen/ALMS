@@ -22,7 +22,7 @@ namespace ALMS.Controllers
         public ActionResult Grid(SearchViewModel search, int? Edit_key)
         {
             var model = GetList(search);
-            if (Edit_key.HasValue && model.Count(x => x.BA01A_ID == Edit_key) == 0)
+            if (Edit_key.HasValue && model.Count(x => x.BA01A_ID == Edit_key) == 0)//已被刪除資料  還被按到編輯
             {
                 ViewData["ErrMsg"] = "資料已被其他使用者刪除";
             }
