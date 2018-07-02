@@ -12,17 +12,13 @@
         group.Items.Add("穦璸ヘ").NavigateUrl = "/BA01/Index";
         group.Items.Add("紅坝籔め").NavigateUrl = "/BA02/Index";
         group.Items.Add("场").NavigateUrl="/BA03/Index";
-        group.Items.Add("眀甅").NavigateUrl = "/BA04/Index";
-        //group.Items.Add("Item 2");
-        //group.Items.Add("Item 3");
     });
-    //settings.Groups.Add(group => {
-    //    group.Text = "Group 2";
-    //    group.Items.Add("Item 1");
-    //    group.Items.Add("Item 2");
-    //    group.Items.Add("Item 3");
-    //    group.Items.Add("Item 4");
-    //    group.Items.Add("Item 5");
-    //});
+    settings.Groups.Add(group =>
+    {
+        group.Text = "肚布";
+        group.Items.Add("穝糤肚布").NavigateUrl = "/TR01/Index";
+        //group.Items.Add("紅坝籔め").NavigateUrl = "/BA02/Index";
+        //group.Items.Add("场").NavigateUrl = "/BA03/Index";
+    });
 }).GetHtml()
 </div>

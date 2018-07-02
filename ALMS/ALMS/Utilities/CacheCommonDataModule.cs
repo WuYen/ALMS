@@ -43,5 +43,102 @@ namespace ALMS.Utilities
 
             return list;
         }
+
+        public static List<DA03A> GetDA03A()
+        {
+            var list = new List<DA03A>();
+
+            var cacheData = CacheHelper.Get("DA03A");
+
+            if (cacheData == null)
+            {
+                var entity = new ALMSEntities();
+                var DA03A = entity.DA03A.ToList();
+                CacheHelper.Set("DA03A", DA03A);
+            }
+
+            list = CacheHelper.Get("DA03A") as List<DA03A>;
+
+            return list;
+        }
+
+        public static List<BA01A> GetBA01A()
+        {
+            var list = new List<BA01A>();
+
+            var cacheData = CacheHelper.Get("BA01A");
+
+            if (cacheData == null)
+            {
+                var entity = new ALMSEntities();
+                var BA01A = entity.BA01A.ToList();
+                CacheHelper.Set("BA01A", BA01A);
+            }
+
+            list = CacheHelper.Get("BA01A") as List<BA01A>;
+
+            return list;
+        }
+
+        public static List<BA02A> GetBA02A()
+        {
+            var list = new List<BA02A>();
+
+            var cacheData = CacheHelper.Get("BA02A");
+
+            if (cacheData == null)
+            {
+                var entity = new ALMSEntities();
+                var BA02A = entity.BA02A.ToList();
+                CacheHelper.Set("BA02A", BA02A);
+            }
+
+            list = CacheHelper.Get("BA02A") as List<BA02A>;
+
+            return list;
+        }
+        public static List<BA02B> GetBA02B()
+        {
+            var list = new List<BA02B>();
+
+            var cacheData = CacheHelper.Get("BA02B");
+
+            if (cacheData == null)
+            {
+                var entity = new ALMSEntities();
+                var BA02B = entity.BA02B.ToList();
+                CacheHelper.Set("BA02B", BA02B);
+            }
+
+            list = CacheHelper.Get("BA02B") as List<BA02B>;
+
+            return list;
+        }
+        public static List<BA02B> GetBA02B(int? BA02A_ID)
+        {
+            if (BA02A_ID.HasValue)
+            {
+                return GetBA02B().Where(x => x.BA02A_ID == BA02A_ID).ToList();
+            }
+            return new List<BA02B>();
+        }
+
+        public static List<BA03A> GetBA03A()
+        {
+            var list = new List<BA03A>();
+
+            var cacheData = CacheHelper.Get("BA03A");
+
+            if (cacheData == null)
+            {
+                var entity = new ALMSEntities();
+                var BA03A = entity.BA03A.ToList();
+                CacheHelper.Set("BA03A", BA03A);
+            }
+
+            list = CacheHelper.Get("BA03A") as List<BA03A>;
+
+            return list;
+        }
     }
 }

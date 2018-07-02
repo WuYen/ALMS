@@ -25,24 +25,66 @@ namespace ALMS.Controllers
         {
             var temp = TempData["SelectedItemKey"] as int?;
             ViewData["selectedItem"] = temp ?? key;
+            ViewData["Success"] = TempData["SaveSuccess"] as bool?;
             return View("Index");
         }
 
         public ActionResult Grid(SearchViewModel search, int? key)
         {
             ViewData["selectedItem"] = key;
-
-
-            var result = BA02Business.FromEntity(_Service.GetMany(x => x.BA02A_ID > 0).ToList());
-
+            List<BA02AModel> result = GetMasterList(search);
             return PartialView("_Grid", result);
+        }
+
+        public ActionResult Delete(int BA02A_ID, SearchViewModel search)
+        {
+            var entity = _Service.GetByKey(BA02A_ID);
+            var result = BA02Business.BeforeSave(null, ref entity, EntityState.Deleted, ModelState);
+
+            if (result.Message == "")
+            {
+                result.Message += _Service.SaveChanges(entity, EntityState.Deleted);
+            }
+
+            if (result.Message == "")
+            {
+                ViewData["Success"] = true;
+            }
+            else
+            {
+                ViewData["ErrMsg"] = result.Message;
+                ViewData["selectedItem"] = entity.BA02A_ID;
+            }
+
+            List<BA02AModel> resultData = GetMasterList(search);
+            return PartialView("_Grid", resultData); ;
+        }
+
+        private List<BA02AModel> GetMasterList(SearchViewModel search)
+        {
+            var queryData = _Service.GetQueryable();
+            if (!string.IsNullOrWhiteSpace(search.S_CPN_NO))
+            {
+                queryData = queryData.Where(x => x.CPN_NO.Contains(search.S_CPN_NO));
+            }
+            if (!string.IsNullOrWhiteSpace(search.S_CPN_NM))
+            {
+                queryData = queryData.Where(x => x.CPN_NM.Contains(search.S_CPN_NM));
+            }
+            var result = BA02Business.FromEntity(queryData.ToList());
+            return result;
         }
 
         public ActionResult Edit(int? key)
         {
             if (key.HasValue && key.Value > 0)
             {
-                ViewData["Master"] = BA02Business.FromEntity(_Service.GetByKey(key.Value)); //new FA11AModel();
+                var entity = _Service.GetByKey(key.Value);
+                if (entity == null)
+                {
+                    ViewData["ErrMsg"] = "資料已被其他使用者刪除";
+                }
+                ViewData["Master"] = BA02Business.FromEntity(entity); //new FA11AModel();
                 ViewData["Detail"] = BA02Business.FromEntity(_Service.GetByMasterKey(key.Value));  //new List<FA11BModel>();
             }
             else
@@ -64,14 +106,14 @@ namespace ALMS.Controllers
         {
             string errMsg = "";
             //Step1: 先把update資料抓回來
-            var entity = _Service.GetByKey(master.BA02A_ID);
+            var entity = _Service.GetByKey(master.BA02A_ID) ?? new BA02A();
             var deleteCount = _Service.GetByDetailKeys(updateValues.DeleteKeys).Count;
             var updateKeys = updateValues.Update.Select(x => x.BA02B_ID).ToList();
             var detailUpdate = _Service.GetByDetailKeys(updateKeys).ToList();
 
             //Step2: call business before save 
-            var state = entity == null ? EntityState.Added : EntityState.Modified;
-            var result1 = BA02Business.BeforeSave(master, entity ?? new BA02A(), state, ModelState);//資料已被刪除<br />"
+            var state = entity.BA02A_ID == 0 ? EntityState.Added : EntityState.Modified;
+            var result1 = BA02Business.BeforeSave(master, ref entity, state, ModelState);//資料已被刪除<br />"
             var result2 = BA02Business.BeforeSave(updateValues, detailUpdate, deleteCount, ModelState); //"明細資料已被刪除<br />請重新整理<br />" +"請檢查紅色驚嘆號<br />";
 
             errMsg = result1.Message + result2.Message;
@@ -79,7 +121,8 @@ namespace ALMS.Controllers
             //Step3: call service save change
             if (errMsg == "")
             {
-                errMsg += _Service.SaveChangeBatch(result1.Data, state, result2.Insert, result2.Update, result2.Delete);
+                errMsg += _Service.SaveChangeBatch(ref entity, state, result2.Insert, result2.Update, result2.Delete);
+                master.BA02A_ID = entity.BA02A_ID;
             }
             return ResultHandler(errMsg, master, updateValues);
         }
@@ -89,6 +132,7 @@ namespace ALMS.Controllers
             if (errMsg == "")
             {
                 TempData["SelectedItemKey"] = master.BA02A_ID;
+                TempData["SaveSuccess"] = true;
                 return RedirectToAction("RedirectIndex");
             }
             else

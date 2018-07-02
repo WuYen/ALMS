@@ -27,14 +27,14 @@ namespace ALMS.ViewModels.BA02.Service
             return _BA02ARepository.GetByKey(BA02A_ID);
         }
 
-        public List<BA02A> GetMany(string sqlCmd)
+        public IQueryable<BA02A> GetQueryable()
         {
-            return _BA02ARepository.GetMany(sqlCmd).ToList();
+            return _BA02ARepository.GetQuery();
         }
 
-        public IQueryable<BA02A> GetMany(Expression<Func<BA02A, bool>> predicate)
+        public List<BA02A> GetMany(Expression<Func<BA02A, bool>> predicate)
         {
-            return _BA02ARepository.GetMany(predicate).AsQueryable();
+            return _BA02ARepository.GetMany(predicate).ToList();
         }
 
 
@@ -81,7 +81,7 @@ namespace ALMS.ViewModels.BA02.Service
             return errMsg;
         }
 
-        public string SaveChangeBatch(BA02A entity, EntityState state, List<BA02B> CreateD, List<BA02B> UpdateD, List<int> DeleteD)
+        public string SaveChangeBatch(ref BA02A entity, EntityState state, List<BA02B> CreateD, List<BA02B> UpdateD, List<int> DeleteD)
         {
             var errMsg = "";
             using (var trans = _entity.Database.BeginTransaction(IsolationLevel.Snapshot))

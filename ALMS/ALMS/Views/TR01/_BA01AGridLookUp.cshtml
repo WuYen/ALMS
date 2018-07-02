@@ -1,0 +1,35 @@
+﻿
+@Html.DevExpress().GridLookup(settings =>
+{
+    settings.Name = "BA01AGridLookUp";
+    settings.GridViewProperties.CallbackRouteValues = new { Controller = "TR01", Action = "BA01AGridLookUp" };
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+    settings.Properties.SelectionMode = GridLookupSelectionMode.Single;
+    settings.Properties.TextFormatString = "{0}";
+    //settings.GridViewClientSideEvents.BeginCallback = "BA01AGridLookUpBegCall";
+    settings.Properties.IncrementalFilteringDelay = 500;
+    settings.GridViewProperties.Settings.ShowFilterRow = true;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.KeyFieldName = "BA01A_ID";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACC_NO";
+        column.Caption = "科目代號";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACC_NM";
+        column.Caption = "科目名稱";
+    });
+    settings.Columns.Add(column=> {
+        column.FieldName = "LEV_QT";
+        column.Caption = "級數";
+        //column.EditorProperties().ComboBox(p=>
+        //{
+        //    p.TextField = "ACC_NM";
+        //    p.ValueField = "BA01A_ID";
+        //    p.ValueType = typeof(int);
+        //    p.DataSource = CacheCommonDataModule.GetDA01A();
+        //});
+    });
+}).BindList(CacheCommonDataModule.GetBA01A()).GetHtml()

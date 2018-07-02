@@ -118,7 +118,7 @@ namespace ALMS.ViewModels.BA02.Service
             return entityList;
         }
 
-        public static ResultHelper<BA02A> BeforeSave(BA02AModel model, BA02A entity, EntityState state, ModelStateDictionary ModelState)
+        public static ResultHelper<BA02A> BeforeSave(BA02AModel model, ref BA02A entity, EntityState state, ModelStateDictionary ModelState)
         {
             var errMsg = "";
             if (state == EntityState.Added) //新增
@@ -133,7 +133,7 @@ namespace ALMS.ViewModels.BA02.Service
             }
             else if (state == EntityState.Modified)//修改
             {
-                errMsg = entity == null ? "資料已被刪除<br/>" : Validation(model, ModelState);
+                errMsg = entity.BA02A_ID == 0 ? "資料已被刪除<br/>" : Validation(model, ModelState);
                 if (errMsg == "" || ModelState.IsValid)
                 {
                     ToEntity(model, ref entity);

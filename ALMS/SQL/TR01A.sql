@@ -1,0 +1,42 @@
+USE [ALMS]
+GO
+
+/****** Object:  Table [dbo].[TR01A]    Script Date: 2018/6/30 ¤U¤È 01:42:00 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[TR01A](
+	[TR01A_ID] [int] IDENTITY(1,1) NOT NULL,
+	[TRN_DT] [varchar](8) NOT NULL,
+	[DA03A_ID] [int] NULL,
+	[VOU_NO] [varchar](10) NULL,
+	[BA02A_ID] [int] NULL,
+	[BA02B_ID] [int] NULL,
+	[BA03A_ID] [int] NULL,
+	[BA01A_ID] [int] NULL,
+	[SUM_RM] [nvarchar](100) NULL,
+	[DEB_MY] [decimal](20,4) NULL,
+	[CRE_MY] [decimal](20,4) NULL,
+	[CREATE_USER] [varchar](30) NULL,
+	[CREATE_DATE] [datetime] NULL,
+	[UPDATE_USER] [varchar](30) NULL,
+	[UPDATE_DATE] [datetime] NULL,
+	[ACT_YN] [char](1) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TR01A_ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+

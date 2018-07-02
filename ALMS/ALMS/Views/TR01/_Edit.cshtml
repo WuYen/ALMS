@@ -1,0 +1,114 @@
+﻿@model string
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+<script>
+    var keyOnPage = '@Model';
+    function ToolBarClick(s, e) {
+        if (e.item.name == "Save") {
+            Save();
+        }
+        else if (e.item.name == "Cancel") {
+            GetEditForm(keyOnPage);
+        }
+    }
+
+    function Save() {
+        $.validator.unobtrusive.parse("#MasterForm");
+        if ($("#MasterForm").valid()) {
+            DetailGrid.callbackCustomArgs["master"] = MVCxClientUtils.GetSerializedEditorValuesInContainer("MasterForm", true);
+            var container = $("body");
+            var token = $('input[name="__RequestVerificationToken"]', container).val();
+            DetailGrid.callbackCustomArgs["__RequestVerificationToken"] = token;
+
+            if (DetailGrid.batchEditApi.HasChanges()) {
+                DetailGrid.UpdateEdit();
+            }
+            else {
+                DetailGrid.PerformCallback();
+            }
+        }
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px; margin-right:10px">
+    @Html.DevExpress().Menu(settings =>
+        {
+            settings.Name = "ToolBar";
+            DevCommonHelper.SetMenuSetting(settings);
+            settings.ClientSideEvents.ItemClick = "ToolBarClick";
+            settings.Items.Add(i =>
+            {
+                i.Name = "Save";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
+            });
+            settings.Items.Add(i =>
+            {
+                i.Name = "Cancel";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
+            });
+        }).GetHtml()
+</div>
+
+<script>
+    var selectFirst = false;
+    function BA02ASelectChanged(s, e) {
+        BA02BCombobox.PerformCallback();
+        selectFirst = true;
+    }
+    function BA02BComboboxBegCall(s, e) {
+        e.customArgs["key"] = BA02A_ID.GetValue();
+    }
+    function BA02BComboboxEndCall(s, e) {
+        if (selectFirst) {
+            selectFirst = false;
+            s.SetSelectedIndex(0);
+        }
+    }
+</script>
+<form id="MasterForm" style="margin-top:20px;margin-left:10px; margin-right:10px">
+    <div id="MasterFormDiv">
+        @{
+            Html.RenderPartial("_MasterForm", ViewData["Master"]);
+        }
+    </div>
+</form>
+
+<script>
+    function DetailGridBeginCallback(s, e) {
+        DetailGrid.callbackCustomArgs["key"] = "";
+    }
+    function DetailGridEndCallBack(s, e) {
+        if (s.cpErrMsg != undefined && s.cpErrMsg.length > 0) {
+            ShowError(s.cpErrMsg);
+            $("#MasterFormDiv").html(s.cpMasterForm);
+            if (s.cpDeleteIDs != undefined) {
+                var key = s.cpDeleteIDs.split(",");//把刪除的row重新標記刪除
+                for (var i = 0; i < key.length - 1; i++) {
+                    DetailGrid.DeleteRowByKey(key[i].toString());
+                }
+            }
+        }
+    }
+    function BtnDetailAddNewClick(s, e) {
+        DetailGrid.AddNewRow();
+    }
+    function DetailGridBatchEndEdit(s, e) {
+        console.log("DetailGridBatchEndEdit")
+        var column = s.GetColumnByField("BA01A_ID");
+        if (!e.rowValues.hasOwnProperty(column.index))
+            return;
+        var cellInfo = e.rowValues[column.index];
+        cellInfo.value = BA01AGridLookUp.GetGridView().GetSelectedKeysOnPage();
+        cellInfo.text = BA01AGridLookUp.GetText();  
+    }
+</script>
+
+<div style="margin-top:10px;margin-left:10px; margin-right:10px">
+    @{
+        Html.RenderPartial("_DetailGrid", ViewData["Detail"]);
+    }
+</div>
+

@@ -1,0 +1,84 @@
+﻿@model ALMS.ViewModels.TR01.TR01AModel
+    
+@Html.DevExpress().FormLayout(settings =>
+{
+    FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DtTRN_DT", "傳票日期");
+        i.NestedExtension().DateEdit(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.DisplayFormatString = "yyyy-MM-dd";
+            s.Properties.EditFormatString = "yyyy-MM-dd";
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "DA03A_ID", "帳套別");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.ValueField = "DA03A_ID";
+            s.Properties.TextField = "ITM_NM";
+            s.Properties.DataSource = CacheCommonDataModule.GetDA03A();
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "VOU_NO", "傳票號碼");
+        i.NestedExtension().TextBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.ReadOnly = true;
+            s.Properties.ReadOnlyStyle.BackColor = System.Drawing.Color.Beige;
+        });
+    });
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "BA02A_ID", "廠商");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.ValueField = "BA02A_ID";
+            s.Properties.TextField = "CPN_NM";
+            s.Properties.DataSource = CacheCommonDataModule.GetBA02A();
+            s.Properties.ClientSideEvents.SelectedIndexChanged = "BA02ASelectChanged";
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "BA02B_ID", "客戶");
+        i.SetNestedContent(() =>
+        {
+            Html.RenderPartial("_BA02BComboBox");
+        });
+        //i.NestedExtension().TextBox(s =>
+        //{
+        //    s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+        //    s.ShowModelErrors = true;
+        //});
+    });
+
+    settings.Items.Add(i =>
+    {
+        FormLayoutHelper.SetItemBasicSetting(i, "BA03A_ID", "部門");
+        i.NestedExtension().ComboBox(s =>
+        {
+            s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            s.ShowModelErrors = true;
+            s.Properties.ValueField = "BA03A_ID";
+            s.Properties.TextField = "DEP_NM";
+            s.Properties.DataSource = CacheCommonDataModule.GetBA03A();
+        });
+    });
+
+}).Bind(Model).GetHtml()

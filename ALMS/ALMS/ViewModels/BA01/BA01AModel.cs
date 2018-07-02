@@ -8,13 +8,13 @@ using ALMS.Models;
 
 namespace ALMS.ViewModels.BA01
 {
-    [MetadataType(typeof(BA03A_MD))]
+    [MetadataType(typeof(BA01A_MD))]
     public class BA01AModel : BA01A
     {
         public ModelStateDictionary ModelState { get; set; }
     }
 
-    public class BA03A_MD
+    public class BA01A_MD
     {
         [Required(ErrorMessage = "必填")]
         public string ACC_NO { get; set; }

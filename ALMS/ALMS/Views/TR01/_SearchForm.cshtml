@@ -1,0 +1,51 @@
+﻿
+<div>
+    <form id="SearchForm" >
+        @Html.DevExpress().FormLayout(
+              settings =>
+              {
+                  FormLayoutHelper.GetSearchSetting(settings, "Search", 4);
+                  settings.Width = Unit.Percentage(100);
+                  settings.Items.Add(i =>
+                  {
+                      i.Name = "S_VOU_NO";
+                      i.Caption = "傳票號碼";
+                      i.NestedExtension().TextBox(s =>
+                      {
+                          s.ShowModelErrors = false;
+                      });
+                  });
+
+                  settings.Items.Add(i =>
+                  {
+                      i.Name = "ApplyFilter";
+                      i.ShowCaption = DefaultBoolean.False;
+                      i.Width = Unit.Percentage(13);
+                      i.NestedExtension().Button(s =>
+                      {
+                          //DevCommonHelper.SetButtonSetting(s, BtnType.Search);
+                          s.Text = "查詢";
+                          s.ClientSideEvents.Click = "ApplyFilterClick";
+                          s.Styles.Style.Paddings.Padding = 0;
+                          s.Styles.Style.CssClass = "FilterButton";
+                      });
+                  });
+
+                  settings.Items.Add(i =>
+                  {
+                      i.Name = "AddNew";
+                      i.ShowCaption = DefaultBoolean.False;
+                      i.Width = Unit.Percentage(13);
+                      i.NestedExtension().Button(s =>
+                      {
+                          DevCommonHelper.SetButtonSetting(s, BtnType.AddNew);
+                          s.ClientSideEvents.Click = "AddNewClick";
+                          s.Styles.Style.Paddings.Padding = 0;
+                          s.Styles.Style.CssClass = "FilterButton";
+                      });
+                  });
+
+              }).GetHtml()
+    </form>
+</div>
+

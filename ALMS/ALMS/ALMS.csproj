@@ -224,6 +224,13 @@
     <Content Include="Views\BA02\_Grid.cshtml" />
     <Content Include="Views\BA02\_MasterForm.cshtml" />
     <Content Include="Views\BA02\_SearchForm.cshtml" />
+    <Content Include="Views\TR01\Index.cshtml" />
+    <Content Include="Views\TR01\_SearchForm.cshtml" />
+    <Content Include="Views\TR01\_Edit.cshtml" />
+    <Content Include="Views\TR01\_MasterForm.cshtml" />
+    <Content Include="Views\TR01\_DetailGrid.cshtml" />
+    <Content Include="Views\TR01\_BA02BCombobox.cshtml" />
+    <Content Include="Views\TR01\_BA01AGridLookUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -240,6 +247,7 @@
     <Compile Include="Controllers\BA04Controller.cs" />
     <Compile Include="Controllers\BA03Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TR01Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -279,7 +287,14 @@
     <Compile Include="Models\DA02A.cs">
       <DependentUpon>ALMSDBContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DA03A.cs">
+      <DependentUpon>ALMSDBContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TR01A.cs">
+      <DependentUpon>ALMSDBContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\TR01ARepository.cs" />
     <Compile Include="Repositories\BA02BRepository.cs" />
     <Compile Include="Repositories\BA04ARepository.cs" />
     <Compile Include="Repositories\BA03ARepository.cs" />
@@ -297,6 +312,11 @@
     <Compile Include="Utilities\ObjectHelper.cs" />
     <Compile Include="Utilities\ReadViewHelper.cs" />
     <Compile Include="Utilities\ResultHelper.cs" />
+    <Compile Include="ViewModels\TR01\TR01BModel.cs" />
+    <Compile Include="ViewModels\TR01\TR01AModel.cs" />
+    <Compile Include="ViewModels\TR01\Service\TR01Business.cs" />
+    <Compile Include="ViewModels\TR01\Service\TR01Service.cs" />
+    <Compile Include="ViewModels\TR01\ViewModel.cs" />
     <Compile Include="ViewModels\BA01\BA01AModel.cs" />
     <Compile Include="ViewModels\BA01\Service\BA01Business.cs" />
     <Compile Include="ViewModels\BA01\Service\BA01Service.cs" />

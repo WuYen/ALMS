@@ -22,7 +22,7 @@
         else if (e.item.name == "Delete") {
             alertify.confirm('刪除', '確認刪除?'
                 , function () {
-                    //GridView.DeleteRow(GridView.GetFocusedRowIndex());
+                    GridView.DeleteRow(GridView.GetFocusedRowIndex());
                 }
                 , function () {
                     alertify.error('取消');
@@ -58,6 +58,13 @@
         $(document.body).append(form);
         form.submit();
     }
+    $(window).load(function () {
+     var show = '@Json.Encode(ViewData["Success"])';
+        console.log(show);
+        if (show != null && show == 'true') {
+            ShowSuccess();
+        }
+    });
 </script>
 
 <div style="margin-top:10px;margin-left:10px; margin-right:12px">

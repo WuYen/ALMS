@@ -67,5 +67,10 @@ namespace ALMS.Repositories
         {
             return dbSet.SqlQuery(sqlCmd).ToList();
         }
+
+        public virtual IQueryable<TEntity> GetQuery()
+        {
+            return dbSet.AsQueryable();
+        }
     }
 }

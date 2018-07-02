@@ -1,12 +1,12 @@
-﻿@model List<ALMS.ViewModels.BA02.BA02BModel>
-
+﻿@model List<ALMS.ViewModels.TR01.TR01BModel>
+    
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
-        BatchGridHelper.GetBasicSetting(settings, "DetailGrid", "BA02", "DetailGrid");
+        BatchGridHelper.GetBasicSetting(settings, "DetailGrid", "TR01", "DetailGrid");
 
-        settings.CustomActionRouteValues = new { Controller = "BA02", Action = "DetailGridBatchUpdate" };
-        settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "BA02", Action = "DetailGridBatchUpdate" };
+        settings.CustomActionRouteValues = new { Controller = "TR01", Action = "DetailGridBatchUpdate" };
+        settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "TR01", Action = "DetailGridBatchUpdate" };
         settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
         settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
         settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
@@ -22,7 +22,7 @@
                 btn.Name = "BtnDetailAddNew";
                 btn.ClientSideEvents.Click = "BtnDetailAddNewClick";
                 btn.Text = "新增";
-                btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
+                //btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
                 btn.Styles.Style.Paddings.PaddingTop = 0;
                 btn.Styles.Style.Paddings.PaddingBottom = 0;
                 btn.Styles.Style.Paddings.PaddingLeft = 0;
@@ -42,9 +42,48 @@
 
         settings.KeyFieldName = "BA02B_ID";
 
+        //settings.Columns.Add(column =>
+        //{
+        //    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
+        //    column.EditorProperties().ComboBox(p =>
+        //    {
+        //        p.TextField = "ACC_NM";
+        //        p.ValueField = "BA01A_ID";
+        //        p.ValueType = typeof(int);
+        //        p.DataSource = CacheCommonDataModule.GetBA01A();
+        //    });
+        //});
         settings.Columns.Add(column =>
         {
-            BatchGridHelper.SetColumns(column, "CUS_NO", "客戶代號");
+            column.FieldName = "BA01A_ID";
+            column.Caption = "科目代碼";
+         
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var properties = column.PropertiesEdit as ComboBoxProperties;
+            properties.DataSource = CacheCommonDataModule.GetBA01A();
+            properties.TextField = "ACC_NM";
+            properties.ValueField = "BA01A_ID";
+            properties.ValueType = typeof(int);
+   
+            column.SetEditItemTemplateContent(c =>
+            {
+                Html.RenderPartial("~/Views/TR01/_BA01AGridLookUp.cshtml");
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "ACC_NM", "科目名稱");
+            column.Settings.ShowEditorInBatchEditMode = false;
+            column.ReadOnly = true;
+            column.CellStyle.BackColor = System.Drawing.Color.Beige;
+            //column.EditorProperties().TextBox(p =>
+            //{
+            //});
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "SUM_RM", "摘要");
             column.EditorProperties().TextBox(p =>
             {
             });
@@ -52,24 +91,24 @@
 
         settings.Columns.Add(column =>
         {
-            BatchGridHelper.SetColumns(column, "CUS_NM", "客戶名稱");
-            column.EditorProperties().TextBox(p =>
+            BatchGridHelper.SetColumns(column, "DEB_MY", "借方");
+            column.EditorProperties().SpinEdit(
+            p =>
             {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "G29";
             });
         });
         settings.Columns.Add(column =>
         {
-            BatchGridHelper.SetColumns(column, "TEL_NO", "電話");
-            column.EditorProperties().TextBox(p =>
+            BatchGridHelper.SetColumns(column, "CRE_MY", "貸方");
+            column.EditorProperties().SpinEdit(
+            p =>
             {
-            });
-        });
-
-        settings.Columns.Add(column =>
-        {
-            BatchGridHelper.SetColumns(column, "HND_NO", "行動電話");
-            column.EditorProperties().TextBox(p =>
-            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "G29";
             });
         });
 
@@ -81,6 +120,7 @@
 
         settings.ClientSideEvents.BeginCallback = "DetailGridBeginCallback";
         settings.ClientSideEvents.EndCallback = "DetailGridEndCallBack";
+        settings.ClientSideEvents.BatchEditEndEditing = "DetailGridBatchEndEdit";
 
         settings.CustomJSProperties += (s, e) =>
         {

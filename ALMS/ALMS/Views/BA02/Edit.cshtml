@@ -43,6 +43,13 @@
         $(document.body).append(form);
         form.submit();
     }
+    
+    $(window).load(function () {
+        var errMsg = '@ViewData["ErrMsg"]';
+        if (errMsg != 'null') {
+            ShowError(errMsg);
+        }
+    });
 </script>
 
 <div style="margin-top:10px;margin-left:10px; margin-right:10px">

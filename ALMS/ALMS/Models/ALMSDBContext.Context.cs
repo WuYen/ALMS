@@ -32,5 +32,7 @@ namespace ALMS.Models
         public virtual DbSet<BA04A> BA04A { get; set; }
         public virtual DbSet<DA01A> DA01A { get; set; }
         public virtual DbSet<DA02A> DA02A { get; set; }
+        public virtual DbSet<DA03A> DA03A { get; set; }
+        public virtual DbSet<TR01A> TR01A { get; set; }
     }
 }

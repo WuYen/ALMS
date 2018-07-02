@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "編輯傳票";
+}
+<script>
+    function ApplyFilterClick(s, e) {
+        GetEditForm(S_VOU_NO.GetValue());
+    }
+    function AddNewClick(s, e) {
+        GetEditForm('');
+    }
+
+    function GetEditForm(key) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("Edit", "TR01")',
+            data: { key: key },
+            success: function (Data) {
+                $("#EditAreaDiv").html(Data.View);
+                ShowError(Data.ErrMsg);
+            }
+        });
+    }
+    
+    $(window).load(function () {
+        var errMsg = '@ViewData["ErrMsg"]';
+        if (errMsg != 'null') {
+            ShowError(errMsg);
+        }
+    });
+</script>
+<div style="margin-top:10px;margin-left:10px; margin-right:12px">
+    @{
+        Html.RenderPartial("_SearchForm");
+    }
+</div>
+
+<div id="EditAreaDiv">
+    @{
+        Html.RenderAction("Edit");
+    }
+</div>

@@ -9,21 +9,21 @@
             i.Name = "Add";
             i.Image.IconID = "actions_additem_16x16";
             i.Visible = Model.ShowAdd;
-            i.Text = "Add";
+            i.Text = "新增";
         });
         settings.Items.Add(i =>
         {
             i.Name = "Edit";
             i.Image.IconID = "edit_edit_16x16office2013";
             i.Visible = Model.ShowEdit;
-            i.Text = "Edit";
+            i.Text = "編輯";
         });
         settings.Items.Add(i =>
         {
             i.Name = "Delete";
             i.Image.IconID = "edit_delete_16x16office2013";
             i.Visible = Model.ShowDelete;
-            i.Text = "Delete";
+            i.Text = "刪除";
         });
     }).GetHtml()
 

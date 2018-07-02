@@ -809,3 +809,7 @@ html, body {
     height: 24px !important;
     padding: 0px !important;
 }
+
+.dxbf {
+    border-width: 0px !important;
+}
