@@ -1,0 +1,96 @@
+﻿@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "BA01ALookUpGrid";
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "Utility", Action = "BA01ALookUpGrid" };
+    settings.SettingsPager.PageSize = 15;
+    settings.SettingsPager.NumericButtonCount = 8;//page bar show page number count
+    settings.SettingsPager.Summary.Visible = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollableHeight = 350;
+
+    settings.CommandColumn.Caption = " ";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.Width = 66;
+    settings.SettingsBehavior.AllowSelectSingleRowOnly = true;
+    settings.SettingsBehavior.AllowEllipsisInText = true;
+    settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+    settings.KeyFieldName = "BA01A_ID";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACC_NO";
+        column.Caption = "科目代號";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACC_NM";
+        column.Caption = "科目名稱";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LEV_QT";
+        column.Caption = "級數";
+        //column.EditorProperties().ComboBox(p=>
+        //{
+        //    p.TextField = "ACC_NM";
+        //    p.ValueField = "BA01A_ID";
+        //    p.ValueType = typeof(int);
+        //    p.DataSource = CacheCommonDataModule.GetDA01A();
+        //});
+    });
+
+    settings.SettingsBehavior.FilterRowMode = GridViewFilterRowMode.Auto;
+    settings.CommandColumn.ShowClearFilterButton = true;
+    settings.SettingsCommandButton.ClearFilterButton.Text = "Clear";// Resources.Resource.Clear;
+    settings.CommandColumn.ShowApplyFilterButton = false;
+    settings.SettingsCommandButton.ApplyFilterButton.Text = "Apply";// Resources.Resource.Filter;
+    settings.SettingsCommandButton.RenderMode = GridCommandButtonRenderMode.Button;
+
+    settings.BeforeGetCallbackResult += (s, e) =>
+    {
+        MVCxGridView gridView = (MVCxGridView)s;
+
+        string key = ViewData["selectedItem"] as string;
+        if (key != null && key.Length > 0)
+        {
+            gridView.Selection.UnselectAll();
+            gridView.Selection.SelectRowByKey(key);
+            int index = gridView.FindVisibleIndexByKeyValue(key);
+            if (index > 0)
+            {
+                gridView.PageIndex = index / gridView.SettingsPager.PageSize;
+            }
+        }
+        else
+        {
+            var firstPage = ViewData["FirstPage"] as bool?;
+            if (firstPage.HasValue && firstPage.Value)
+            {
+                gridView.Selection.UnselectAll();
+                gridView.PageIndex = 0;
+            }
+        }
+    };
+
+    settings.AfterPerformCallback = (s, e) =>
+    {
+        if (e.CallbackName == "APPLYCOLUMNFILTER")
+        {
+            ((MVCxGridView)s).PageIndex = 0;
+        }
+    };
+
+    settings.ClientSideEvents.RowDblClick = "function(s,e){ BA01APopup.Hide(); SetBA01ATextBox();BA01ALookUpGrid.ClearFilter();}";
+    settings.ClientSideEvents.BeginCallback = "BA01ALookUpGridBegCall";
+    settings.Init = (s, e) =>
+    {
+        MVCxGridView grid = (MVCxGridView)s;
+        grid.ClearSort();
+    };
+}).Bind(CacheCommonDataModule.GetBA01A()).GetHtml()

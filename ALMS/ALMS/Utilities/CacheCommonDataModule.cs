@@ -79,7 +79,17 @@ namespace ALMS.Utilities
 
             return list;
         }
-
+        public static BA01A GetBA01A(int? BA01A_ID)
+        {
+            if (BA01A_ID.HasValue)
+            {
+                return GetBA01A().Where(x => x.BA01A_ID == BA01A_ID).First();
+            }
+            else
+            {
+                return new BA01A();
+            }
+        }
         public static List<BA02A> GetBA02A()
         {
             var list = new List<BA02A>();

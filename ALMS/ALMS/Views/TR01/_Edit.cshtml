@@ -35,21 +35,21 @@
 
 <div style="margin-top:10px;margin-left:10px; margin-right:10px">
     @Html.DevExpress().Menu(settings =>
-        {
-            settings.Name = "ToolBar";
-            DevCommonHelper.SetMenuSetting(settings);
-            settings.ClientSideEvents.ItemClick = "ToolBarClick";
-            settings.Items.Add(i =>
             {
-                i.Name = "Save";
-                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
-            });
-            settings.Items.Add(i =>
-            {
-                i.Name = "Cancel";
-                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
-            });
-        }).GetHtml()
+                settings.Name = "ToolBar";
+                DevCommonHelper.SetMenuSetting(settings);
+                settings.ClientSideEvents.ItemClick = "ToolBarClick";
+                settings.Items.Add(i =>
+                {
+                    i.Name = "Save";
+                    DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
+                });
+                settings.Items.Add(i =>
+                {
+                    i.Name = "Cancel";
+                    DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
+                });
+            }).GetHtml()
 </div>
 
 <script>
@@ -95,14 +95,30 @@
     function BtnDetailAddNewClick(s, e) {
         DetailGrid.AddNewRow();
     }
-    function DetailGridBatchEndEdit(s, e) {
-        console.log("DetailGridBatchEndEdit")
-        var column = s.GetColumnByField("BA01A_ID");
-        if (!e.rowValues.hasOwnProperty(column.index))
+</script>
+<script>
+    //專門處理挑選會計科目
+    var index;
+    function BA01AEditBtnClick(s, e) {
+        index = DetailGrid.batchEditApi.GetEditCellInfo().rowVisibleIndex;
+        var BA01A_ID = DetailGrid.batchEditApi.GetCellValue(index, "BA01A_ID", false);
+        BA01ALookUpGrid.PerformCallback({ selectedItem: BA01A_ID, FirstPage: true });
+        BA01APopup.ShowAtElement(s.GetMainElement());
+    }
+    function BA01ALookUpGridBegCall(s, e) {
+        //e.customArgs["BA01A_ID"] = CbBA01A_ID.GetValue();
+    }
+    function SetBA01ATextBox(s, e) {
+        BA01ALookUpGrid.GetSelectedFieldValues('BA01A_ID;ACC_NO;ACC_NM', OnGetSelectedFieldValues);
+    }
+    function OnGetSelectedFieldValues(selectedValues) {
+        if (selectedValues.length == 0) {
             return;
-        var cellInfo = e.rowValues[column.index];
-        cellInfo.value = BA01AGridLookUp.GetGridView().GetSelectedKeysOnPage();
-        cellInfo.text = BA01AGridLookUp.GetText();  
+        } else {
+            DetailGrid.batchEditApi.SetCellValue(index, "BA01A_ID", selectedValues[0][0], selectedValues[0][2]);//value,displayText
+            DetailGrid.batchEditApi.SetCellValue(index, "ACC_NO", selectedValues[0][1], selectedValues[0][1]);
+            DetailGrid.batchEditApi.EndEdit();
+        }
     }
 </script>
 
@@ -112,3 +128,6 @@
     }
 </div>
 
+@{
+    Html.RenderAction("BA01ASelectPopup", "Utility", new { popupElementID = "BA01AEditBtnClick" });
+}

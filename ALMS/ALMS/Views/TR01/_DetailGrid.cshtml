@@ -1,5 +1,5 @@
 ﻿@model List<ALMS.ViewModels.TR01.TR01BModel>
-    
+
 @{
     var grid = Html.DevExpress().GridView(settings =>
     {
@@ -22,8 +22,8 @@
                 btn.Name = "BtnDetailAddNew";
                 btn.ClientSideEvents.Click = "BtnDetailAddNewClick";
                 btn.Text = "新增";
-                //btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
-                btn.Styles.Style.Paddings.PaddingTop = 0;
+        //btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
+        btn.Styles.Style.Paddings.PaddingTop = 0;
                 btn.Styles.Style.Paddings.PaddingBottom = 0;
                 btn.Styles.Style.Paddings.PaddingLeft = 0;
                 btn.Styles.Style.Paddings.PaddingRight = 0;
@@ -42,44 +42,48 @@
 
         settings.KeyFieldName = "BA02B_ID";
 
-        //settings.Columns.Add(column =>
-        //{
-        //    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
-        //    column.EditorProperties().ComboBox(p =>
-        //    {
-        //        p.TextField = "ACC_NM";
-        //        p.ValueField = "BA01A_ID";
-        //        p.ValueType = typeof(int);
-        //        p.DataSource = CacheCommonDataModule.GetBA01A();
-        //    });
-        //});
-        settings.Columns.Add(column =>
+//settings.Columns.Add(column =>
+//{
+//    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
+//    column.EditorProperties().ComboBox(p =>
+//    {
+//        p.TextField = "ACC_NM";
+//        p.ValueField = "BA01A_ID";
+//        p.ValueType = typeof(int);
+//        p.DataSource = CacheCommonDataModule.GetBA01A();
+//    });
+//});
+settings.Columns.Add(column =>
         {
-            column.FieldName = "BA01A_ID";
+            column.FieldName = "ACC_NO";
             column.Caption = "科目代碼";
-         
-            column.ColumnType = MVCxGridViewColumnType.ComboBox;
-            var properties = column.PropertiesEdit as ComboBoxProperties;
-            properties.DataSource = CacheCommonDataModule.GetBA01A();
-            properties.TextField = "ACC_NM";
-            properties.ValueField = "BA01A_ID";
-            properties.ValueType = typeof(int);
-   
-            column.SetEditItemTemplateContent(c =>
+            column.ReadOnly = true;
+            column.EditorProperties().ButtonEdit(
+            p =>
             {
-                Html.RenderPartial("~/Views/TR01/_BA01AGridLookUp.cshtml");
+                var btn = new EditButton();
+                btn.Image.Url = Url.Content("~/Content/Icon/search_grey_18x18.png");
+                btn.Text = "";
+                p.Buttons.Add(btn);
+                p.ClientSideEvents.ButtonClick = "BA01AEditBtnClick";
+                p.ButtonStyle.Paddings.PaddingTop = 2;
+                p.ButtonStyle.Paddings.PaddingBottom = 2;
+                p.ButtonStyle.Paddings.PaddingLeft = 4;
+                p.ButtonStyle.Paddings.PaddingRight = 2;
             });
         });
 
         settings.Columns.Add(column =>
         {
-            BatchGridHelper.SetColumns(column, "ACC_NM", "科目名稱");
+            BatchGridHelper.SetColumns(column, "ACC_NM", "");
+            column.Visible = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "BA01A_ID", "科目名稱");
             column.Settings.ShowEditorInBatchEditMode = false;
             column.ReadOnly = true;
             column.CellStyle.BackColor = System.Drawing.Color.Beige;
-            //column.EditorProperties().TextBox(p =>
-            //{
-            //});
         });
         settings.Columns.Add(column =>
         {
@@ -120,7 +124,6 @@
 
         settings.ClientSideEvents.BeginCallback = "DetailGridBeginCallback";
         settings.ClientSideEvents.EndCallback = "DetailGridEndCallBack";
-        settings.ClientSideEvents.BatchEditEndEditing = "DetailGridBatchEndEdit";
 
         settings.CustomJSProperties += (s, e) =>
         {
@@ -136,6 +139,14 @@
             }
         };
         settings.Settings.ShowStatusBar = GridViewStatusBarMode.Hidden;
+        settings.CustomColumnDisplayText = (s, e) =>
+        {
+            if (e.Column.FieldName == "BA01A_ID")
+            {
+                var sender = s as MVCxGridView;
+                e.GetFieldValue(e.VisibleIndex, "ACC_NM");
+            }
+        };
     });
 }
 @grid.Bind(Model).GetHtml()

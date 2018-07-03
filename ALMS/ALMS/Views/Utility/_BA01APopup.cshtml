@@ -1,0 +1,45 @@
+﻿@Html.DevExpress().PopupControl(
+settings =>
+{
+    settings.Name = "BA01APopup";
+    settings.Width = 600;
+
+    settings.PopupElementID = ViewBag.PopupElementID;
+    settings.PopupVerticalAlign = PopupVerticalAlign.BottomSides;
+    settings.PopupVerticalAlign = PopupVerticalAlign.Below;
+    settings.PopupHorizontalAlign = PopupHorizontalAlign.LeftSides;
+
+    settings.AllowDragging = true;
+    settings.ShowOnPageLoad = false;
+    settings.CloseAction = CloseAction.CloseButton;
+    settings.ShowHeader = false;
+    settings.SetContent(() =>
+    {
+        Html.RenderPartial("_BA01ALookUpGrid");
+    });
+
+    settings.ShowFooter = true;
+    settings.Styles.Footer.Paddings.PaddingRight = 12;
+    settings.SetFooterContentTemplateContent(c =>
+    {
+        ViewContext.Writer.Write("<div style=\"padding: 0px 0px 6px 0px; float: right\">");
+        Html.DevExpress().Button(
+        btnSettings =>
+        {
+            btnSettings.Name = "BtnPopupConfirm";
+            btnSettings.Text = "Confirm";
+            btnSettings.ClientSideEvents.Click = "function(s,e){ BA01APopup.Hide(); SetBA01ATextBox();BA01ALookUpGrid.ClearFilter();}";
+        }).GetHtml();
+        ViewContext.Writer.Write("&nbsp");
+        Html.DevExpress().Button(
+        btnSettings =>
+        {
+            btnSettings.Name = "BtnPopupCancel";
+            btnSettings.Text = "Cancel";
+
+            btnSettings.ClientSideEvents.Click = "function(s,e){ BA01APopup.Hide();BA01ALookUpGrid.ClearFilter();}";
+        }).GetHtml();
+
+        ViewContext.Writer.Write("</div>");
+    });
+}).GetHtml()

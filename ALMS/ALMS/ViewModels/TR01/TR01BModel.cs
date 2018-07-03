@@ -13,6 +13,8 @@ namespace ALMS.ViewModels.TR01
     {
         public int TR01A_ID { get; set; }
         public Nullable<int> BA01A_ID { get; set; }
+        public string ACC_NO { get; set; }
+        public string ACC_NM { get; set; }
         public string SUM_RM { get; set; }
         public Nullable<decimal> DEB_MY { get; set; }
         public Nullable<decimal> CRE_MY { get; set; }

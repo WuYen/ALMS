@@ -51,13 +51,16 @@ namespace ALMS.ViewModels.TR01.Service
             var detailList = new List<TR01BModel>();
             foreach (var item in entityList)
             {
+                var BA01A = CacheCommonDataModule.GetBA01A(item.BA01A_ID);
                 detailList.Add(new TR01BModel()
                 {
                     TR01A_ID = item.TR01A_ID,
                     BA01A_ID = item.BA01A_ID,
                     CRE_MY = item.CRE_MY,
                     DEB_MY = item.DEB_MY,
-                    SUM_RM = item.SUM_RM
+                    SUM_RM = item.SUM_RM,
+                    ACC_NO = BA01A.ACC_NO,
+                    ACC_NM = BA01A.ACC_NM
                 });
             }
 
