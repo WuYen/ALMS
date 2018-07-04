@@ -22,8 +22,8 @@
                 btn.Name = "BtnDetailAddNew";
                 btn.ClientSideEvents.Click = "BtnDetailAddNewClick";
                 btn.Text = "新增";
-        //btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
-        btn.Styles.Style.Paddings.PaddingTop = 0;
+                //btn.Images.Image.Url = "~/Content/Icon/add_circle_outline_grey_18x18.png";
+                btn.Styles.Style.Paddings.PaddingTop = 0;
                 btn.Styles.Style.Paddings.PaddingBottom = 0;
                 btn.Styles.Style.Paddings.PaddingLeft = 0;
                 btn.Styles.Style.Paddings.PaddingRight = 0;
@@ -40,20 +40,20 @@
 
         settings.Settings.ShowFooter = false;
 
-        settings.KeyFieldName = "BA02B_ID";
+        settings.KeyFieldName = "TR01A_ID";
 
-//settings.Columns.Add(column =>
-//{
-//    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
-//    column.EditorProperties().ComboBox(p =>
-//    {
-//        p.TextField = "ACC_NM";
-//        p.ValueField = "BA01A_ID";
-//        p.ValueType = typeof(int);
-//        p.DataSource = CacheCommonDataModule.GetBA01A();
-//    });
-//});
-settings.Columns.Add(column =>
+        //settings.Columns.Add(column =>
+        //{
+        //    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
+        //    column.EditorProperties().ComboBox(p =>
+        //    {
+        //        p.TextField = "ACC_NM";
+        //        p.ValueField = "BA01A_ID";
+        //        p.ValueType = typeof(int);
+        //        p.DataSource = CacheCommonDataModule.GetBA01A();
+        //    });
+        //});
+        settings.Columns.Add(column =>
         {
             column.FieldName = "ACC_NO";
             column.Caption = "科目代碼";
@@ -130,6 +130,7 @@ settings.Columns.Add(column =>
             e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
             e.Properties["cpDeleteIDs"] = ViewData["DeleteIDList"];
             e.Properties["cpMasterForm"] = ViewData["MasterForm"];
+            e.Properties["cpIsSuccess"] = ViewData["IsSuccess"];
         };
         settings.CommandButtonInitialize = (s, e) =>//隱藏grid footer 的savechange and cancel link text
         {
@@ -144,7 +145,11 @@ settings.Columns.Add(column =>
             if (e.Column.FieldName == "BA01A_ID")
             {
                 var sender = s as MVCxGridView;
-                e.GetFieldValue(e.VisibleIndex, "ACC_NM");
+                var text = e.GetFieldValue(e.VisibleIndex, "ACC_NM") as string;
+                if (text != null)
+                {
+                    e.DisplayText = text;
+                }
             }
         };
     });

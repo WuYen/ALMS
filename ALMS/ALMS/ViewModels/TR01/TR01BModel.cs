@@ -23,6 +23,6 @@ namespace ALMS.ViewModels.TR01
     public class TR01B_MD
     {
         [Required(ErrorMessage = "必填")]
-        public int? BA01A_ID { get; set; }
+        public string ACC_NO { get; set; }
     }
 }

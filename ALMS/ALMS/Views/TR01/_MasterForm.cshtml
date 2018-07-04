@@ -1,5 +1,6 @@
 ﻿@model ALMS.ViewModels.TR01.TR01AModel
-    
+
+@Html.DevExpress().TextBoxFor(x => x.EntityState, s => { s.ClientVisible = false; }).GetHtml()
 @Html.DevExpress().FormLayout(settings =>
 {
     FormLayoutHelper.GetBasicSetting(settings, "EditFormLayout", 3);
@@ -18,7 +19,7 @@
 
     settings.Items.Add(i =>
     {
-        FormLayoutHelper.SetItemBasicSetting(i, "DA03A_ID", "帳套別");
+        FormLayoutHelper.SetItemBasicSetting(i, "DA03A_ID", "套帳別");
         i.NestedExtension().ComboBox(s =>
         {
             s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
@@ -56,17 +57,18 @@
 
     settings.Items.Add(i =>
     {
-        FormLayoutHelper.SetItemBasicSetting(i, "BA02B_ID", "客戶");
+//FormLayoutHelper.SetItemBasicSetting(i, "BA02B_ID", "客戶");
+i.Caption = "客戶";
         i.SetNestedContent(() =>
         {
             Html.RenderPartial("_BA02BComboBox");
         });
-        //i.NestedExtension().TextBox(s =>
-        //{
-        //    s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
-        //    s.ShowModelErrors = true;
-        //});
-    });
+//i.NestedExtension().TextBox(s =>
+//{
+//    s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+//    s.ShowModelErrors = true;
+//});
+});
 
     settings.Items.Add(i =>
     {

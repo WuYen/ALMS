@@ -30,12 +30,17 @@ namespace ALMS.ViewModels.TR01.Service
             return _Repository.GetMany(predicate).ToList();
         }
 
+        public List<TR01A> GetMany(List<int> IDlist)
+        {
+            return _Repository.GetMany(x => IDlist.Contains(x.TR01A_ID)).ToList();
+        }
+        
         public IQueryable<TR01A> GetQueryable()
         {
             return _Repository.GetQuery();
         }
 
-        public string SaveChanges(List<TR01A> AddList, List<TR01A> UpdateList, List<int> DeleteList, EntityState state)
+        public string SaveChanges(List<TR01A> AddList, List<TR01A> UpdateList, List<int> DeleteList)
         {
             var errMsg = "";
             using (var trans = _entity.Database.BeginTransaction(IsolationLevel.Snapshot))

@@ -1,19 +1,20 @@
 ﻿@model ALMS.ViewModels.TR01.TR01AModel
-
+    
 @{
     if (Model!= null)
     {
         ViewBag.DataSource = CacheCommonDataModule.GetBA02B(Model.BA02A_ID);
+        ViewBag.BA02B_ID = Model.BA02B_ID;
     }
 }
 
 @Html.DevExpress().ComboBoxFor(m => m.BA02B_ID, settings =>
 {
-    settings.Name = "BA02BCombobox";
+    settings.Name = "BA02B_ID";
     settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
     settings.CallbackRouteValues = new { Controller = "TR01", Action = "BA02BCombobox" };
-    settings.Properties.ClientSideEvents.BeginCallback = "BA02BComboboxBegCall";
-    settings.Properties.ClientSideEvents.EndCallback = "BA02BComboboxEndCall";
+    settings.Properties.ClientSideEvents.BeginCallback = "BA02B_IDBegCall";
+    settings.Properties.ClientSideEvents.EndCallback = "BA02B_IDEndCall";
 
     settings.Width = Unit.Percentage(100);
     settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
@@ -24,5 +25,5 @@
     settings.Properties.TextField = "CUS_NM";
     settings.Properties.ValueField = "BA02B_ID";
 
-}).BindList(ViewBag.DataSource).GetHtml()
+}).BindList(ViewBag.DataSource).Bind(ViewBag.BA02B_ID).GetHtml()
 

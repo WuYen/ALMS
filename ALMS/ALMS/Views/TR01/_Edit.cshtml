@@ -55,13 +55,13 @@
 <script>
     var selectFirst = false;
     function BA02ASelectChanged(s, e) {
-        BA02BCombobox.PerformCallback();
+        BA02B_ID.PerformCallback();
         selectFirst = true;
     }
-    function BA02BComboboxBegCall(s, e) {
+    function BA02B_IDBegCall(s, e) {
         e.customArgs["key"] = BA02A_ID.GetValue();
     }
-    function BA02BComboboxEndCall(s, e) {
+    function BA02B_IDEndCall(s, e) {
         if (selectFirst) {
             selectFirst = false;
             s.SetSelectedIndex(0);
@@ -81,9 +81,12 @@
         DetailGrid.callbackCustomArgs["key"] = "";
     }
     function DetailGridEndCallBack(s, e) {
-        if (s.cpErrMsg != undefined && s.cpErrMsg.length > 0) {
+        $("#MasterFormDiv").html(s.cpMasterForm);
+        if (s.cpIsSuccess == "true") {
+            ShowSuccess();
+        }
+        else if (s.cpErrMsg != undefined && s.cpErrMsg.length > 0) {
             ShowError(s.cpErrMsg);
-            $("#MasterFormDiv").html(s.cpMasterForm);
             if (s.cpDeleteIDs != undefined) {
                 var key = s.cpDeleteIDs.split(",");//把刪除的row重新標記刪除
                 for (var i = 0; i < key.length - 1; i++) {
