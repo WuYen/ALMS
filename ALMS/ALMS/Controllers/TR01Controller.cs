@@ -88,9 +88,14 @@ namespace ALMS.Controllers
                     updateValues.SetErrorText(updateValues.DeleteKeys[i], "Unable to delete!");
                     deleteIDStrList += updateValues.DeleteKeys[i] + ",";
                 }
+                if (master.EntityState == EntityState.Added)
+                {
+                    master.VOU_NO = "系統產生";
+                }
 
+                errMsg = "存儲失敗<br/>" + errMsg;
                 ViewData["DeleteIDList"] = deleteIDStrList;
-                ViewData["ErrMsg"] = ("存儲失敗<br/>" + errMsg).Substring(0, errMsg.Length - 5);
+                ViewData["ErrMsg"] = errMsg.Substring(0, errMsg.Length - 5);
                 ViewData["MasterForm"] = ReadViewHelper.PartialView(this, "_MasterForm", master);
                 return PartialView("_DetailGrid", new List<TR01BModel>());
             }

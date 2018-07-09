@@ -128,6 +128,7 @@ namespace ALMS.ViewModels.TR01.Service
             {
                 result.Message += "明細資料已被刪除<br/>請重新整理<br/>";
             }
+            result.Message += ValidateBalance(values.Update, values.Insert);
 
             if (!ModelState.IsValid)
             {
@@ -137,7 +138,7 @@ namespace ALMS.ViewModels.TR01.Service
             {
                 if (master.EntityState == EntityState.Added)
                 {
-                    master.VOU_NO = DateTime.Now.ToString("yyyyMMddss");
+                    master.VOU_NO = new ALMSEntities().Database.SqlQuery<string>("select dbo.Get_VOU_NO()").FirstOrDefault();
                 }
                 result.Insert = ToEntity(master, values.Insert, new List<TR01A>(), EntityState.Added);
                 result.Update = ToEntity(master, values.Update, trueUpdateList, EntityState.Modified);
@@ -149,6 +150,21 @@ namespace ALMS.ViewModels.TR01.Service
             }
 
             return result;
+        }
+
+        private static string ValidateBalance(List<TR01BModel> update, List<TR01BModel> insert)
+        {
+            string errMsg = "";
+            var sumCredit = update.Sum(x => x.CRE_MY) + insert.Sum(x => x.CRE_MY);
+            var sumDebit = update.Sum(x => x.DEB_MY) + insert.Sum(x => x.DEB_MY);
+            if (sumCredit.HasValue && sumDebit.HasValue)
+            {
+                if (sumCredit.Value != sumDebit.Value)
+                {
+                    errMsg += "借貸不平衡<br/>";
+                }
+            }
+            return errMsg;
         }
 
         private static List<TR01A> ToEntity(TR01AModel master, List<TR01A> updateList2)

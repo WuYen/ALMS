@@ -30,29 +30,19 @@
             }).GetHtml();
         });
 
-        settings.SettingsCommandButton.DeleteButton.Styles.Style.Paddings.Padding = 0;
-        settings.SettingsCommandButton.DeleteButton.Image.IconID = "edit_delete_16x16office2013";
-        settings.SettingsCommandButton.DeleteButton.Text = "刪除";
+        //settings.SettingsCommandButton.DeleteButton.Styles.Style.Paddings.Padding = 0;
+        //settings.SettingsCommandButton.DeleteButton.Image.IconID = "edit_delete_16x16office2013";
+        //settings.SettingsCommandButton.DeleteButton.Text = "刪除";
 
-        settings.CommandColumn.ShowRecoverButton = true;
+        settings.CommandColumn.ShowDeleteButton = true;
+        settings.CommandColumn.ShowRecoverButton = false;
 
         settings.SettingsCommandButton.RenderMode = GridCommandButtonRenderMode.Button;
 
-        settings.Settings.ShowFooter = false;
+        settings.Settings.ShowFooter = true;
 
         settings.KeyFieldName = "TR01A_ID";
 
-        //settings.Columns.Add(column =>
-        //{
-        //    BatchGridHelper.SetColumns(column, "BA01A_ID", "科目代碼");
-        //    column.EditorProperties().ComboBox(p =>
-        //    {
-        //        p.TextField = "ACC_NM";
-        //        p.ValueField = "BA01A_ID";
-        //        p.ValueType = typeof(int);
-        //        p.DataSource = CacheCommonDataModule.GetBA01A();
-        //    });
-        //});
         settings.Columns.Add(column =>
         {
             column.FieldName = "ACC_NO";
@@ -103,6 +93,23 @@
                 p.MaxValue = 999999999;
                 p.DisplayFormatString = "G29";
             });
+
+            ASPxSummaryItem summaryItem = new ASPxSummaryItem(column.FieldName, DevExpress.Data.SummaryItemType.Sum);
+            summaryItem.Tag = column.FieldName + "_Sum";
+            summaryItem.DisplayFormat = "{0}";
+            settings.TotalSummary.Add(summaryItem);
+
+            column.SetFooterTemplateContent(c =>
+            {
+                Html.DevExpress().Label(lbSettings =>
+                {
+                    string fieldName = (c.Column as GridViewDataColumn).FieldName;
+                    lbSettings.Name = "labelSumDEB";
+                    lbSettings.Properties.EnableClientSideAPI = true;
+                    ASPxSummaryItem summaryItem1 = c.Grid.TotalSummary.First(i => i.Tag == (fieldName + "_Sum"));
+                    lbSettings.Text = c.Grid.GetTotalSummaryValue(summaryItem1).ToString();
+                }).Render();
+            });
         });
         settings.Columns.Add(column =>
         {
@@ -114,6 +121,23 @@
                 p.MaxValue = 999999999;
                 p.DisplayFormatString = "G29";
             });
+
+            ASPxSummaryItem summaryItem = new ASPxSummaryItem(column.FieldName, DevExpress.Data.SummaryItemType.Sum);
+            summaryItem.Tag = column.FieldName + "_Sum";
+            summaryItem.DisplayFormat = "{0}";
+            settings.TotalSummary.Add(summaryItem);
+
+            column.SetFooterTemplateContent(c =>
+            {
+                Html.DevExpress().Label(lbSettings =>
+                {
+                    string fieldName = (c.Column as GridViewDataColumn).FieldName;
+                    lbSettings.Name = "labelSumCRE";
+                    lbSettings.Properties.EnableClientSideAPI = true;
+                    ASPxSummaryItem summaryItem1 = c.Grid.TotalSummary.First(i => i.Tag == (fieldName + "_Sum"));
+                    lbSettings.Text = c.Grid.GetTotalSummaryValue(summaryItem1).ToString();
+                }).Render();
+            });
         });
 
         settings.Columns.Add(column =>
@@ -124,6 +148,9 @@
 
         settings.ClientSideEvents.BeginCallback = "DetailGridBeginCallback";
         settings.ClientSideEvents.EndCallback = "DetailGridEndCallBack";
+
+        settings.ClientSideEvents.BatchEditEndEditing = "OnBatchEditEndEditing";
+        settings.ClientSideEvents.BatchEditRowDeleting = "OnBatchEditRowDeleting";
 
         settings.CustomJSProperties += (s, e) =>
         {

@@ -16,18 +16,22 @@
     }
 
     function Save() {
-        $.validator.unobtrusive.parse("#MasterForm");
-        if ($("#MasterForm").valid()) {
-            DetailGrid.callbackCustomArgs["master"] = MVCxClientUtils.GetSerializedEditorValuesInContainer("MasterForm", true);
-            var container = $("body");
-            var token = $('input[name="__RequestVerificationToken"]', container).val();
-            DetailGrid.callbackCustomArgs["__RequestVerificationToken"] = token;
+        if (labelSumDEB.GetValue() != labelSumCRE.GetValue()) {
+            ShowError("借貸金額不一致");
+        } else {
+            $.validator.unobtrusive.parse("#MasterForm");
+            if ($("#MasterForm").valid()) {
+                DetailGrid.callbackCustomArgs["master"] = MVCxClientUtils.GetSerializedEditorValuesInContainer("MasterForm", true);
+                var container = $("body");
+                var token = $('input[name="__RequestVerificationToken"]', container).val();
+                DetailGrid.callbackCustomArgs["__RequestVerificationToken"] = token;
 
-            if (DetailGrid.batchEditApi.HasChanges()) {
-                DetailGrid.UpdateEdit();
-            }
-            else {
-                DetailGrid.PerformCallback();
+                if (DetailGrid.batchEditApi.HasChanges()) {
+                    DetailGrid.UpdateEdit();
+                }
+                else {
+                    DetailGrid.PerformCallback();
+                }
             }
         }
     }
@@ -35,21 +39,21 @@
 
 <div style="margin-top:10px;margin-left:10px; margin-right:10px">
     @Html.DevExpress().Menu(settings =>
+        {
+            settings.Name = "ToolBar";
+            DevCommonHelper.SetMenuSetting(settings);
+            settings.ClientSideEvents.ItemClick = "ToolBarClick";
+            settings.Items.Add(i =>
             {
-                settings.Name = "ToolBar";
-                DevCommonHelper.SetMenuSetting(settings);
-                settings.ClientSideEvents.ItemClick = "ToolBarClick";
-                settings.Items.Add(i =>
-                {
-                    i.Name = "Save";
-                    DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
-                });
-                settings.Items.Add(i =>
-                {
-                    i.Name = "Cancel";
-                    DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
-                });
-            }).GetHtml()
+                i.Name = "Save";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Save);
+            });
+            settings.Items.Add(i =>
+            {
+                i.Name = "Cancel";
+                DevCommonHelper.SetMenuButtonSetting(i, BtnType.Cancel);
+            });
+        }).GetHtml()
 </div>
 
 <script>
@@ -124,7 +128,54 @@
         }
     }
 </script>
+<script>
+    function OnBatchEditRowDeleting(s, e) {
+        //var RecoverButton = "<a href='#' onclick='RecoverClick(" + e.visibleIndex + ")' id='Recover" + e.visibleIndex + "'>Recover</a>";
+        //var id = "#DetailGrid_DXDataRow" + e.visibleIndex + " .dxgvCommandColumn_Metropolis";
+        //$(id).append(RecoverButton);
+        var CellValueCRE = DetailGrid.batchEditApi.GetCellValue(e.visibleIndex, "CRE_MY", false);
+        var CellValueDEB = DetailGrid.batchEditApi.GetCellValue(e.visibleIndex, "DEB_MY", false);
+        CaculateSummary("CRE", e.visibleIndex, CellValueCRE, true);
+        CaculateSummary("DEB", e.visibleIndex, CellValueDEB, true);//不要計算的row index
+    }
+    function OnBatchEditEndEditing(s, e) {
+        var CellValueCRE = DetailGrid.batchEditApi.GetCellValue(e.visibleIndex, "CRE_MY", false);//上一次修改的值
+        var CellValueDEB = DetailGrid.batchEditApi.GetCellValue(e.visibleIndex, "DEB_MY", false);//上一次修改的值
+        var newValueCRE = e.rowValues[(s.GetColumnByField("CRE_MY").index)].value;//最新修改的值
+        var newValueDEB = e.rowValues[(s.GetColumnByField("DEB_MY").index)].value;//最新修改的值
+        var difCRE = newValueCRE - CellValueCRE;
+        var difDEB = newValueDEB - CellValueDEB;
+        CaculateSummary("CRE", e.visibleIndex, difCRE, false);
+        CaculateSummary("DEB", e.visibleIndex, difDEB, false);
+    }
 
+    function RecoverClick(visibleIndex) {
+        $("#Recover" + visibleIndex).remove();
+        DetailGrid.batchEditApi.ResetChanges(visibleIndex);
+        var CellValueCRE = DetailGrid.batchEditApi.GetCellValue(visibleIndex, "CRE_MY", false);
+        var CellValueDEB = DetailGrid.batchEditApi.GetCellValue(visibleIndex, "DEB_MY", false);
+        CaculateSummary("CRE", visibleIndex, CellValueCRE, false);
+        CaculateSummary("DEB", visibleIndex, CellValueDEB, false);
+    }
+
+    function CaculateSummary(type, visibleIndex, CellValue, isDelete) {
+        if (type == 'CRE') {
+            var orgValue = parseFloat(labelSumCRE.GetValue());
+            if (isDelete) {
+                labelSumCRE.SetValue(orgValue - CellValue);//刪除直接扣掉
+            } else {
+                labelSumCRE.SetValue(orgValue + CellValue);
+            }
+        } else {
+            var orgValue = parseFloat(labelSumDEB.GetValue());
+            if (isDelete) {
+                labelSumDEB.SetValue(orgValue - CellValue);//刪除直接扣掉
+            } else {
+                labelSumDEB.SetValue(orgValue + CellValue);
+            }
+        }
+    }
+</script>
 <div style="margin-top:10px;margin-left:10px; margin-right:10px">
     @{
         Html.RenderPartial("_DetailGrid", ViewData["Detail"]);
