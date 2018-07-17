@@ -1,0 +1,144 @@
+﻿@model System.Collections.IEnumerable
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "GridView";
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.CallbackRouteValues = new { Controller = "RP01", Action = "Grid" };
+        settings.CustomActionRouteValues = new { Controller = "RP01", Action = "GridCustomCall" };
+
+
+
+        settings.ClientSideEvents.BeginCallback = "GridViewBegCallback";
+        //settings.ClientSideEvents.EndCallback = "GridViewEndCallback";
+
+        settings.Styles.Header.BackColor = System.Drawing.ColorTranslator.FromHtml("#e8e8e8");
+        settings.Styles.Header.ForeColor = System.Drawing.ColorTranslator.FromHtml("#0072c6");
+
+
+        settings.SettingsPager.AlwaysShowPager = true;
+        settings.SettingsPager.PageSize = 20;
+        //settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        //settings.Settings.VerticalScrollableHeight = 300;
+
+        settings.KeyFieldName = "TR01A_ID";
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DtTRN_DT";
+            column.Caption = "傳票日期";
+            column.EditorProperties().DateEdit(p =>
+            {
+                p.DisplayFormatString = "yyyy-MM-dd";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DA03A_ID";
+            column.Caption = "套帳別";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "DA03A_ID";
+                p.TextField = "ITM_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = CacheCommonDataModule.GetDA03A();
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VOU_NO";
+            column.Caption = "傳票號碼";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NO";
+            column.Caption = "科目代號";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NM";
+            column.Caption = "科目名稱";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "SUM_RM";
+            column.Caption = "摘要";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "BA02A_ID";
+            column.Caption = "廠商";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "BA02A_ID";
+                p.TextField = "CPN_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = CacheCommonDataModule.GetBA02A();
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "BA02B_ID";
+            column.Caption = "客戶";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "BA02B_ID";
+                p.TextField = "CUS_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = CacheCommonDataModule.GetBA02B();
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "BA03A_ID";
+            column.Caption = "部門";
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "BA03A_ID";
+                p.TextField = "DEP_NM";
+                p.ValueType = typeof(int);
+                p.DataSource = CacheCommonDataModule.GetBA03A();
+            });
+        });
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "DEB_MY", "借方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "G29";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "CRE_MY", "貸方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "G29";
+            });
+        });
+
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpSuccess"] = ViewData["Success"];
+        };
+
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsExport.FileName = "日記帳_" + DateTime.Now.ToString("yyyyMMdd");
+
+    }).Bind(Model).GetHtml()
+
+
+
+
+

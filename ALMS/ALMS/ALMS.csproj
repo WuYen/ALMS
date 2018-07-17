@@ -248,6 +248,9 @@
     <Content Include="Views\TR01\_BA02BCombobox.cshtml" />
     <Content Include="Views\Utility\_BA01ALookUpGrid.cshtml" />
     <Content Include="Views\Utility\_BA01APopup.cshtml" />
+    <Content Include="Views\RP01\Index.cshtml" />
+    <Content Include="Views\RP01\_SearchForm.cshtml" />
+    <Content Include="Views\RP01\_Grid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -264,6 +267,7 @@
     <Compile Include="Controllers\BA04Controller.cs" />
     <Compile Include="Controllers\BA03Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RP01Controller.cs" />
     <Compile Include="Controllers\TR01Controller.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Global.asax.cs">
@@ -330,6 +334,10 @@
     <Compile Include="Utilities\ObjectHelper.cs" />
     <Compile Include="Utilities\ReadViewHelper.cs" />
     <Compile Include="Utilities\ResultHelper.cs" />
+    <Compile Include="ViewModels\RP01\Service\RP01Business.cs" />
+    <Compile Include="ViewModels\RP01\Service\RP01Service.cs" />
+    <Compile Include="ViewModels\RP01\RP01AModel.cs" />
+    <Compile Include="ViewModels\RP01\ViewModel.cs" />
     <Compile Include="ViewModels\TR01\TR01BModel.cs" />
     <Compile Include="ViewModels\TR01\TR01AModel.cs" />
     <Compile Include="ViewModels\TR01\Service\TR01Business.cs" />

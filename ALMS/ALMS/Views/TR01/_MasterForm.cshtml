@@ -57,18 +57,12 @@
 
     settings.Items.Add(i =>
     {
-//FormLayoutHelper.SetItemBasicSetting(i, "BA02B_ID", "客戶");
-i.Caption = "客戶";
+        i.Caption = "客戶";
         i.SetNestedContent(() =>
         {
             Html.RenderPartial("_BA02BComboBox");
         });
-//i.NestedExtension().TextBox(s =>
-//{
-//    s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
-//    s.ShowModelErrors = true;
-//});
-});
+    });
 
     settings.Items.Add(i =>
     {
