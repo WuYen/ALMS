@@ -20,5 +20,13 @@
         //group.Items.Add("廠商與客戶").NavigateUrl = "/BA02/Index";
         //group.Items.Add("部門").NavigateUrl = "/BA03/Index";
     });
+    settings.Groups.Add(group =>
+    {
+        group.Text = "報表";
+        group.Items.Add("日記帳").NavigateUrl = "/RP01/Index";
+        group.Items.Add("試算表").NavigateUrl = "/RP02/Index";
+        //group.Items.Add("廠商與客戶").NavigateUrl = "/BA02/Index";
+        //group.Items.Add("部門").NavigateUrl = "/BA03/Index";
+    });
 }).GetHtml()
 </div>

@@ -1,0 +1,141 @@
+﻿@model System.Data.DataTable
+    
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "GridView";
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.CallbackRouteValues = new { Controller = "RP02", Action = "Grid" };
+        settings.CustomActionRouteValues = new { Controller = "RP02", Action = "GridCustomCall" };
+
+
+
+        settings.ClientSideEvents.BeginCallback = "GridViewBegCallback";
+        //settings.ClientSideEvents.EndCallback = "GridViewEndCallback";
+
+        settings.Styles.Header.BackColor = System.Drawing.ColorTranslator.FromHtml("#e8e8e8");
+        settings.Styles.Header.ForeColor = System.Drawing.ColorTranslator.FromHtml("#0072c6");
+
+
+        settings.SettingsPager.AlwaysShowPager = true;
+        settings.SettingsPager.PageSize = 20;
+        //settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        //settings.Settings.VerticalScrollableHeight = 300;
+
+        //settings.KeyFieldName = "TR01A_ID";
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_YY";
+            column.Caption = "會計年度";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_DT";
+            column.Caption = "會計期間";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NO";
+            column.Caption = "科目編號";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ACC_NM";
+            column.Caption = "科目名稱";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LEV_QT";
+            column.Caption = "級數";
+        });
+        //settings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "BEG_DEB";
+        //    column.Caption = "摘要";
+        //});
+
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "BEG_DEB", "期初借方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "BEG_CRE", "期初貸方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "CUR_DEB", "本期借方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "CUR_CRE", "本期貸方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "END_DEB", "期末借方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+        settings.Columns.Add(column =>
+        {
+            BatchGridHelper.SetColumns(column, "END_CRE", "期末貸方");
+            column.EditorProperties().SpinEdit(
+            p =>
+            {
+                p.MinValue = 0;
+                p.MaxValue = 999999999;
+                p.DisplayFormatString = "#,#";
+            });
+        });
+
+
+        settings.CustomJSProperties += (s, e) =>
+        {
+            e.Properties["cpErrMsg"] = ViewData["ErrMsg"];
+            e.Properties["cpSuccess"] = ViewData["Success"];
+        };
+
+        settings.SettingsExport.EnableClientSideExportAPI = true;
+        settings.SettingsExport.ExcelExportMode = DevExpress.Export.ExportType.WYSIWYG;
+        settings.SettingsExport.FileName = "試算表_" + DateTime.Now.ToString("yyyyMMdd");
+
+    }).Bind(Model).GetHtml()
+
+
+
+
+

@@ -1,0 +1,56 @@
+﻿<div>
+    <form id="SearchForm" style="margin-right:2px">
+        @Html.DevExpress().FormLayout(
+         settings =>
+         {
+             //settings.Width = 800;
+             FormLayoutHelper.GetSearchSetting(settings, "Search", 4, 600);
+             settings.Items.Add(i =>
+             {
+                 i.Name = "DateBeg";
+                 i.Caption = "起始日期";
+                 FormLayoutHelper.SetDateEdit(i);
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "DateEnd";
+                 i.Caption = "結束日期";
+                 FormLayoutHelper.SetDateEdit(i);
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "ApplyFilter";
+                 i.ShowCaption = DefaultBoolean.False;
+                 i.Width = Unit.Percentage(12);
+                 i.NestedExtension().Button(s =>
+                 {
+                     s.Width = 120;
+                     DevCommonHelper.SetButtonSetting(s, BtnType.Filter);
+                     s.ClientSideEvents.Click = "ApplyFilterlick";
+                     s.Styles.Style.Paddings.Padding = 0;
+                     s.Styles.Style.CssClass = "FilterButton";
+                 });
+             });
+             settings.Items.Add(i =>
+             {
+                 i.Name = "Export";
+                 i.ShowCaption = DefaultBoolean.False;
+                 i.Width = Unit.Percentage(12);
+                 i.NestedExtension().Button(s =>
+                 {
+                     s.Width = 120;
+                     s.Text = "匯出Excel";
+                     s.Images.Image.IconID = "export_exporttoxlsx_16x16office2013";
+                     //DevCommonHelper.SetButtonSetting(s, BtnType.ex);
+                     s.ClientSideEvents.Click = "ExportClick";
+                     s.Styles.Style.Paddings.Padding = 0;
+                     s.Styles.Style.CssClass = "FilterButton";
+                 });
+             });
+
+         }).GetHtml()
+    </form>
+</div>
+

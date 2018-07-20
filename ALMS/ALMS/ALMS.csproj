@@ -251,6 +251,9 @@
     <Content Include="Views\RP01\Index.cshtml" />
     <Content Include="Views\RP01\_SearchForm.cshtml" />
     <Content Include="Views\RP01\_Grid.cshtml" />
+    <Content Include="Views\RP02\Index.cshtml" />
+    <Content Include="Views\RP02\_Grid.cshtml" />
+    <Content Include="Views\RP02\_SearchForm.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -268,6 +271,7 @@
     <Compile Include="Controllers\BA03Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RP01Controller.cs" />
+    <Compile Include="Controllers\RP02Controller.cs" />
     <Compile Include="Controllers\TR01Controller.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Global.asax.cs">
@@ -338,6 +342,8 @@
     <Compile Include="ViewModels\RP01\Service\RP01Service.cs" />
     <Compile Include="ViewModels\RP01\RP01AModel.cs" />
     <Compile Include="ViewModels\RP01\ViewModel.cs" />
+    <Compile Include="ViewModels\RP02\Service\RP02Service.cs" />
+    <Compile Include="ViewModels\RP02\ViewModel.cs" />
     <Compile Include="ViewModels\TR01\TR01BModel.cs" />
     <Compile Include="ViewModels\TR01\TR01AModel.cs" />
     <Compile Include="ViewModels\TR01\Service\TR01Business.cs" />

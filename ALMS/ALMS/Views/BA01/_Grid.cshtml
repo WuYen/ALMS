@@ -4,7 +4,7 @@
     settings =>
     {
         GridHelper.GetSingleBasicSetting(settings, "GridView", "BA01", "Grid");
-
+        settings.SettingsPager.PageSize = 20;
         settings.KeyFieldName = "BA01A_ID";
 
         settings.Columns.Add(column =>
