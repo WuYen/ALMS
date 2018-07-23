@@ -21,6 +21,20 @@
 
              settings.Items.Add(i =>
              {
+                 i.Name = "Type";
+                 i.Caption = "類別";
+                 i.NestedExtension().ComboBox(s =>
+                 {
+                     s.ShowModelErrors = true;
+                     s.Properties.ValueField = "Value";
+                     s.Properties.TextField = "Key";
+                     s.Properties.DataSource = CacheCommonDataModule.GetTypeDictionary();
+                     s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                 });
+             });
+
+             settings.Items.Add(i =>
+             {
                  i.Name = "ApplyFilter";
                  i.ShowCaption = DefaultBoolean.False;
                  i.Width = Unit.Percentage(8);

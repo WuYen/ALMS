@@ -1,5 +1,6 @@
 ﻿using ALMS.Models;
 using ALMS.Repositories;
+using ALMS.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -75,7 +76,7 @@ namespace ALMS.ViewModels.BA02.Service
                 }
                 catch (Exception ex)
                 {
-                    errMsg = ex.Message;
+                    errMsg = SQLHelper.GetSQLMessage(ex);
                 }
             }
             return errMsg;
@@ -119,7 +120,7 @@ namespace ALMS.ViewModels.BA02.Service
                 }
                 catch (Exception ex)
                 {
-                    errMsg = ex.Message;
+                    errMsg = SQLHelper.GetSQLMessage(ex);
                 }
             }
             return errMsg;

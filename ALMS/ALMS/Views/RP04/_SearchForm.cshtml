@@ -7,16 +7,30 @@
              FormLayoutHelper.GetSearchSetting(settings, "Search", 4, 600);
              settings.Items.Add(i =>
              {
-                 i.Name = "DateBeg";
+                 i.Name = "DT_BEG";
                  i.Caption = "起始日期";
                  FormLayoutHelper.SetDateEdit(i);
              });
 
              settings.Items.Add(i =>
              {
-                 i.Name = "DateEnd";
+                 i.Name = "DT_END";
                  i.Caption = "結束日期";
                  FormLayoutHelper.SetDateEdit(i);
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "Type";
+                 i.Caption = "類別";
+                 i.NestedExtension().ComboBox(s =>
+                 {
+                     s.ShowModelErrors = true;
+                     s.Properties.ValueField = "Value";
+                     s.Properties.TextField = "Key";
+                     s.Properties.DataSource = CacheCommonDataModule.GetTypeDictionary();
+                     s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                 });
              });
 
              settings.Items.Add(i =>
@@ -43,7 +57,6 @@
                      s.Width = 120;
                      s.Text = "匯出Excel";
                      s.Images.Image.IconID = "export_exporttoxlsx_16x16office2013";
-                     //DevCommonHelper.SetButtonSetting(s, BtnType.ex);
                      s.ClientSideEvents.Click = "ExportClick";
                      s.Styles.Style.Paddings.Padding = 0;
                      s.Styles.Style.CssClass = "FilterButton";

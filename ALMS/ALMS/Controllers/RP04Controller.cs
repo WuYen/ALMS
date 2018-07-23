@@ -1,23 +1,22 @@
-﻿using ALMS.ViewModels.RP02.Service;
-using ALMS.ViewModels.RP02;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data;
+using ALMS.ViewModels.RP04;
+using ALMS.ViewModels.RP04.Service;
 
 namespace ALMS.Controllers
 {
-    public class RP02Controller : Controller
+    public class RP04Controller : Controller
     {
-        private RP02Service _Service = new RP02Service();
-        // GET: RP02
+        private RP04Service _Service = new RP04Service();
+        // GET: RP04
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult Grid(SearchViewModel search)
         {
             return PartialView("_Grid", GetData(search, false));
@@ -30,13 +29,14 @@ namespace ALMS.Controllers
 
         private DataTable GetData(SearchViewModel search, bool reload)
         {
+            search.Type = "A";
             search.DateBeg = new DateTime(2018, 07, 01);
             search.DateEnd = new DateTime(2018, 07, 31);
-            var data = Session["RP02Data"] as DataTable;
+            var data = Session["RP04Data"] as DataTable;
             if (reload || data == null)
             {
-                data = _Service.GetData(search.DateBegStr,search.DateEndStr);
-                Session["RP02Data"] = data;
+                data = _Service.GetData(search.Type, search.DateBegStr, search.DateEndStr);
+                Session["RP04Data"] = data;
             }
             return data;
         }

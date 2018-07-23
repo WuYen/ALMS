@@ -29,6 +29,6 @@ namespace ALMS.ViewModels.RP01
             }
         }
 
-        public int? Type { get; set; }
+        public string Type { get; set; }
     }
 }

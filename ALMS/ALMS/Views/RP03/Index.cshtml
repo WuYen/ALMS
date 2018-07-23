@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "損益表";
+}
+<script>
+    function ApplyFilterlick(s, e) {
+        GridView.PerformCallback();
+    }
+    function GridViewBegCallback(s, e) {
+        GridView.callbackCustomArgs["search"] = $.extend(GridView.callbackCustomArgs["search"], MVCxClientUtils.GetSerializedEditorValuesInContainer("SearchForm", true));
+    }
+
+    function ExportClick(s, e) {
+        GridView.ExportTo("Xlsx");
+    }
+</script>
+<div style="margin-top:10px;margin-left:10px;margin-right:10px">
+    @{
+        Html.RenderPartial("_SearchForm");
+    }
+</div>
+
+<div style="margin:10px;margin-bottom:0px;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken();
+        Html.RenderAction("Grid");
+    }
+</div>

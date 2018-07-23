@@ -12,9 +12,9 @@
                  i.NestedExtension().ComboBox(s =>
                  {
                      s.ShowModelErrors = true;
-                     s.Properties.ValueField = "DA03A_ID";
-                     s.Properties.TextField = "ITM_NM";
-                     s.Properties.DataSource = CacheCommonDataModule.GetDA03A();
+                     s.Properties.ValueField = "Value";
+                     s.Properties.TextField = "Key";
+                     s.Properties.DataSource = CacheCommonDataModule.GetTypeDictionary();
                      s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
                  });
              });
@@ -36,7 +36,7 @@
              {
                  i.Name = "ApplyFilter";
                  i.ShowCaption = DefaultBoolean.False;
-                 i.Width = Unit.Percentage(12);
+                 i.Width = Unit.Percentage(8);
                  i.NestedExtension().Button(s =>
                  {
                      s.Width = 120;
@@ -50,7 +50,7 @@
              {
                  i.Name = "Export";
                  i.ShowCaption = DefaultBoolean.False;
-                 i.Width = Unit.Percentage(12);
+                 i.Width = Unit.Percentage(8);
                  i.NestedExtension().Button(s =>
                  {
                      s.Width = 120;

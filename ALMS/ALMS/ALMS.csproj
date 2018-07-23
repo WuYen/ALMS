@@ -254,6 +254,12 @@
     <Content Include="Views\RP02\Index.cshtml" />
     <Content Include="Views\RP02\_Grid.cshtml" />
     <Content Include="Views\RP02\_SearchForm.cshtml" />
+    <Content Include="Views\RP03\Index.cshtml" />
+    <Content Include="Views\RP03\_Grid.cshtml" />
+    <Content Include="Views\RP03\_SearchForm.cshtml" />
+    <Content Include="Views\RP04\_Grid.cshtml" />
+    <Content Include="Views\RP04\_SearchForm.cshtml" />
+    <Content Include="Views\RP04\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -272,6 +278,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RP01Controller.cs" />
     <Compile Include="Controllers\RP02Controller.cs" />
+    <Compile Include="Controllers\RP04Controller.cs" />
+    <Compile Include="Controllers\RP03Controller.cs" />
     <Compile Include="Controllers\TR01Controller.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Global.asax.cs">
@@ -338,10 +346,15 @@
     <Compile Include="Utilities\ObjectHelper.cs" />
     <Compile Include="Utilities\ReadViewHelper.cs" />
     <Compile Include="Utilities\ResultHelper.cs" />
+    <Compile Include="Utilities\SQLHelper.cs" />
     <Compile Include="ViewModels\RP01\Service\RP01Business.cs" />
     <Compile Include="ViewModels\RP01\Service\RP01Service.cs" />
     <Compile Include="ViewModels\RP01\RP01AModel.cs" />
     <Compile Include="ViewModels\RP01\ViewModel.cs" />
+    <Compile Include="ViewModels\RP04\Service\RP03Service.cs" />
+    <Compile Include="ViewModels\RP04\ViewModel.cs" />
+    <Compile Include="ViewModels\RP03\Service\RP03Service.cs" />
+    <Compile Include="ViewModels\RP03\ViewModel.cs" />
     <Compile Include="ViewModels\RP02\Service\RP02Service.cs" />
     <Compile Include="ViewModels\RP02\ViewModel.cs" />
     <Compile Include="ViewModels\TR01\TR01BModel.cs" />

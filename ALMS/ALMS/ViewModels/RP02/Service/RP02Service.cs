@@ -5,14 +5,15 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using ALMS.Utilities;
 
 namespace ALMS.ViewModels.RP02.Service
 {
-    public class RP02Service //: ServiceBase
+    public class RP02Service : ServiceBase
     {
         public RP02Service()
         {
-            //_entity = new ALMSEntities();
+            _entity = new ALMSEntities();
         }
 
         public DataTable GetData(string date1, string date2)
@@ -42,41 +43,12 @@ namespace ALMS.ViewModels.RP02.Service
 
             //cnn.Close();
             List<SqlParameter> sqlParameterList = new List<SqlParameter>();
-            sqlParameterList.Add(new SqlParameter("BEG_DT", date1));/*年份*/
-            sqlParameterList.Add(new SqlParameter("END_DT", date2));/*Y : 要將資料 Pivot (Chart 使用) N : 不將資料 Pivot (YOY 使用)*/
+            sqlParameterList.Add(new SqlParameter("BEG_DT", date1));
+            sqlParameterList.Add(new SqlParameter("END_DT", date2));
 
-            return ExecSqlReader("SP_ALMS_RP02", sqlParameterList);
+            return new SQLHelper(_entity).ExecSqlReader("SP_ALMS_RP02", sqlParameterList);
         }
 
-        public DataTable ExecSqlReader(string procedureName, List<SqlParameter> sqlParameters)
-        {
-            DataTable dt = new DataTable();
-            using (var _Entity = new ALMSEntities())
-            {
-                var conn = _Entity.Database.Connection;
-                var connectionState = conn.State;
-                if (connectionState != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
 
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.Parameters.AddRange(sqlParameters.ToArray());
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = procedureName;
-                    cmd.CommandTimeout = 60;
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        do
-                        {
-                            dt.Load(reader);
-                        }
-                        while (!reader.IsClosed);
-                    }
-                }
-            }
-            return dt;
-        }
     }
 }

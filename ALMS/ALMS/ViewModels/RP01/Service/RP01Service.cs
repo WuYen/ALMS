@@ -19,9 +19,18 @@ namespace ALMS.ViewModels.RP01.Service
         public List<TR01A> GetMany(SearchViewModel searchViewModel)
         {
             var queryData = _Repository.GetQuery();
-            if (searchViewModel.Type.HasValue)
+            if (!string.IsNullOrWhiteSpace(searchViewModel.Type))
             {
-                queryData = queryData.Where(x => x.DA03A_ID == searchViewModel.Type);
+                if (searchViewModel.Type == "A")
+                {
+                    queryData = queryData.Where(x => x.DA03A_ID==1 || x.DA03A_ID==2);
+
+                }
+                else
+                {
+                    queryData = queryData.Where(x => x.DA03A_ID == 2 || x.DA03A_ID == 3);
+
+                }
             }
             if (searchViewModel.DT_BEG_STR != "")
             {

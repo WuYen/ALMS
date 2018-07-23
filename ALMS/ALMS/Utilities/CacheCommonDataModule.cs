@@ -150,5 +150,12 @@ namespace ALMS.Utilities
 
             return list;
         }
+
+        private static Dictionary<string, string> TypeDictionary = new Dictionary<string, string> { { "稅", "A" }, { "財", "B" } };
+
+        public static Dictionary<string, string> GetTypeDictionary()
+        {
+            return TypeDictionary;
+        }
     }
 }
