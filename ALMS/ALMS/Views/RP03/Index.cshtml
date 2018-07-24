@@ -11,7 +11,22 @@
     }
 
     function ExportClick(s, e) {
-        GridView.ExportTo("Xlsx");
+        //GridView.ExportTo("Xlsx");
+        var form = $('<form></form>');
+        form.attr("method", "post");
+        form.attr("action", '@Url.Action("ExportToExcel", "RP03")');
+        form.append(CreateField("DateBeg", DateBeg.GetText()));
+        form.append(CreateField("DateEnd", DateBeg.GetText()));
+        form.append(CreateField("Type", Type.GetValue()));
+        $(document.body).append(form);
+        form.submit();
+    }
+    function CreateField(name, value) {
+        var field = $('<input></input>');
+        field.attr("type", "hidden");
+        field.attr("name", name);
+        field.attr("value", value);
+        return field;      
     }
 </script>
 <div style="margin-top:10px;margin-left:10px;margin-right:10px">

@@ -89,6 +89,23 @@ namespace ALMS.Utilities
             }  
         }
 
+        public string GetDbEntityValidationExceptionMessage(System.Data.Entity.Validation.DbEntityValidationException ex)
+        {
+            var errMsg = string.Empty;
+            foreach (var eve in ex.EntityValidationErrors)
+            {
+                errMsg = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                foreach (var ve in eve.ValidationErrors)
+                {
+                    errMsg += "<br />" + string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                }
+            }
+
+            //errMsg = CommonHelper.GetCodeName("W009");
+
+            return errMsg;
+        }
+
         //public DataSet ExecuteStoreProcedure(string storeProcedureName, List<SqlParameter> parameterList, System.Data.Entity.DbContextTransaction trans = null)
         //{
         //    DataSet ds = new DataSet();
