@@ -5,7 +5,6 @@
     <meta charset="UTF-8" />
     <title>@ViewBag.Title</title>
 
-
     @Html.DevExpress().GetStyleSheets(
                 new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
                 new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
@@ -20,6 +19,17 @@
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
     <script src="~/Scripts/alertify.min.js"></script>
+
+    <script>
+        var otherHeight = 123;
+        function UpdateGridHeight(s, e) {
+            //console.log("UpdateGridHeight: "+otherHeight)
+            if (window.GridView && e.pane.name == 'ContentCenter') {
+                console.log("UpdateGridHeight: " + otherHeight)
+                GridView.SetHeight(e.pane.GetClientHeight() - otherHeight);
+            }
+        }
+    </script>
 </head>
 <body>
     @Html.DevExpress().Splitter(settings =>
@@ -72,6 +82,7 @@
             alertify.set('notifier', 'position', 'bottom-center');
             alertify.confirm().set('labels', { ok: '確認', cancel: '取消' });
         });
+
         function ShowError(msg) {
             if (msg != null && msg.length > 1) {
                 alertify.error(msg);

@@ -3,6 +3,11 @@
     ViewBag.Title = "損益表";
 }
 <script>
+    $(function () {
+        if (otherHeight != undefined) {
+            otherHeight = 74;
+        }
+    });
     function ApplyFilterlick(s, e) {
         GridView.PerformCallback();
     }

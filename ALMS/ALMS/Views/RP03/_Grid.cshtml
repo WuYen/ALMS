@@ -13,7 +13,9 @@
         settings.CallbackRouteValues = new { Controller = "RP03", Action = "Grid" };
         settings.CustomActionRouteValues = new { Controller = "RP03", Action = "GridCustomCall" };
 
-
+        settings.SettingsPager.AlwaysShowPager = true;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollableHeight = 300;
 
         settings.ClientSideEvents.BeginCallback = "GridViewBegCallback";
         //settings.ClientSideEvents.EndCallback = "GridViewEndCallback";

@@ -6,7 +6,7 @@
     settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Styles.Pane.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(0);
     settings.Styles.Pane.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
-    settings.ClientSideEvents.PaneResized = "function(s, e) { if(window.GridView && e.pane.name == 'ContentCenter') GridView.SetHeight(e.pane.GetClientHeight()); }";
+    settings.ClientSideEvents.PaneResized = "UpdateGridHeight";
     settings.Panes.Add(subpane => {
         subpane.Name = "ContentLeft";
         subpane.PaneStyle.CssClass = "leftPane";
