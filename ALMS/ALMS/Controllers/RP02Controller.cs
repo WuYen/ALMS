@@ -15,6 +15,7 @@ namespace ALMS.Controllers
         // GET: RP02
         public ActionResult Index()
         {
+            Session["RP02Data"] = null;
             return View();
         }
 

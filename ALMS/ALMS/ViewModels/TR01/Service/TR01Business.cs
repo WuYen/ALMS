@@ -138,7 +138,8 @@ namespace ALMS.ViewModels.TR01.Service
             {
                 if (master.EntityState == EntityState.Added)
                 {
-                    master.VOU_NO = new ALMSEntities().Database.SqlQuery<string>("select dbo.Get_VOU_NO()").FirstOrDefault();
+                   
+                    master.VOU_NO = new ALMSEntities().Database.SqlQuery<string>("select dbo.Get_VOU_NO(" + master.DtTRN_DT.ToString("yyyyMMdd") + ")").FirstOrDefault();
                 }
                 result.Insert = ToEntity(master, values.Insert, new List<TR01A>(), EntityState.Added);
                 result.Update = ToEntity(master, values.Update, trueUpdateList, EntityState.Modified);

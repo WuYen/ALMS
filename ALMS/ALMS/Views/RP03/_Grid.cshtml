@@ -1,9 +1,9 @@
 ﻿@model System.Data.DataTable
-    
+
 @{
     var summaryRow = ViewBag.Summary as System.Data.DataRow;
- }
-    
+}
+
 @Html.DevExpress().GridView(
     settings =>
     {
@@ -18,20 +18,20 @@
         settings.Settings.VerticalScrollableHeight = 300;
 
         settings.ClientSideEvents.BeginCallback = "GridViewBegCallback";
-        //settings.ClientSideEvents.EndCallback = "GridViewEndCallback";
+//settings.ClientSideEvents.EndCallback = "GridViewEndCallback";
 
-        settings.Styles.Header.BackColor = System.Drawing.ColorTranslator.FromHtml("#e8e8e8");
+settings.Styles.Header.BackColor = System.Drawing.ColorTranslator.FromHtml("#e8e8e8");
         settings.Styles.Header.ForeColor = System.Drawing.ColorTranslator.FromHtml("#0072c6");
 
         settings.Settings.ShowFooter = true;
         settings.SettingsPager.AlwaysShowPager = true;
         settings.SettingsPager.PageSize = 20;
-        //settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
-        //settings.Settings.VerticalScrollableHeight = 300;
+//settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+//settings.Settings.VerticalScrollableHeight = 300;
 
-        //settings.KeyFieldName = "TR01A_ID";
+//settings.KeyFieldName = "TR01A_ID";
 
-        settings.Columns.Add(column =>
+settings.Columns.Add(column =>
         {
             column.FieldName = "ACC_NO";
             column.Caption = "科目編號";
@@ -102,8 +102,3 @@
         settings.SettingsExport.FileName = "損益表_" + DateTime.Now.ToString("yyyyMMdd");
 
     }).Bind(Model).GetHtml()
-
-
-
-
-

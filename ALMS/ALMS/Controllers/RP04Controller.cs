@@ -15,6 +15,7 @@ namespace ALMS.Controllers
         // GET: RP04
         public ActionResult Index()
         {
+            Session["RP04Data"] = null;
             return View();
         }
         public ActionResult Grid(SearchViewModel search)

@@ -14,9 +14,10 @@ namespace ALMS.Controllers
     public class RP03Controller : Controller
     {
         private RP03Service _Service = new RP03Service();
-        // GET: RP03
+
         public ActionResult Index()
         {
+            Session["RP03Data"] = null;
             return View();
         }
         public ActionResult Grid(SearchViewModel search)
@@ -33,14 +34,13 @@ namespace ALMS.Controllers
         {
             var dt = GetData(search, false);
 
-           
             var newDataTable = dt.Copy();
             var row = newDataTable.NewRow();
-            var summaryRow = GetSummaryRow();
+            var summaryRow = SummaryRow;
             row["ACC_NO"] = "";
             row["ACC_NM"] = summaryRow["ACC_NM"];
             row["CUR_MY"] = summaryRow["CUR_MY"];
-            row["TOT_MY"] = summaryRow["TOT_MY"];         
+            row["TOT_MY"] = summaryRow["TOT_MY"];
             newDataTable.Rows.Add(row);
 
             return GridViewExtension.ExportToXlsx(GetExortSetting(), newDataTable, new XlsxExportOptionsEx { ExportType = DevExpress.Export.ExportType.WYSIWYG });
@@ -49,23 +49,46 @@ namespace ALMS.Controllers
         private DataTable GetData(SearchViewModel search, bool reload)
         {
             search.Type = "";
-            search.DateBeg = new DateTime(2018, 07, 01);
-            search.DateEnd = new DateTime(2018, 07, 31);
+            search.DateBeg = new DateTime(2018, 08, 01);
+            search.DateEnd = new DateTime(2018, 08, 31);
+
             var data = Session["RP03Data"] as DataTable;
             if (reload || data == null)
             {
-                var temp = _Service.GetData(search.Type,search.DateBegStr, search.DateEndStr);
-                data = temp.Tables[0];          
-                ViewBag.Summary = temp.Tables[1].Rows[0];
-                Session["RP03Data2"] = temp.Tables[1].Rows[0];
-                Session["RP03Data"] = data;
+                var temp = _Service.GetData(search.Type, search.DateBegStr, search.DateEndStr);
+                data = temp.Tables[0];
+                SetSessionData(temp.Tables[0]);
+                SetSummaryRow(temp.Tables[1]);
+                ViewBag.Summary = SummaryRow;
             }
             return data;
         }
 
-        private DataRow GetSummaryRow()
+        public DataRow SummaryRow
         {
-            return Session["RP03Data2"] as DataRow;
+            get { return Session["RP03Data2"] as DataRow; }
+
+        }
+        private void SetSummaryRow(DataTable table)
+        {
+            if (table.Rows.Count == 1)
+            {
+                Session["RP03Data2"] = table.Rows[0];
+            }
+            else
+            {
+                var row = table.NewRow();
+                row["ACC_NO"] = "";
+                row["ACC_NM"] = "";
+                row["CUR_MY"] = 0;
+                row["TOT_MY"] = 0;
+                Session["RP03Data2"] = row;
+            }
+        }
+
+        private void SetSessionData(DataTable table)
+        {
+            Session["RP03Data"] = table;
         }
 
         private GridViewSettings GetExortSetting()
