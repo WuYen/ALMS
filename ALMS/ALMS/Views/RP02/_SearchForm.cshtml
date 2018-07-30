@@ -43,8 +43,23 @@
                      s.Width = 120;
                      s.Text = "匯出Excel";
                      s.Images.Image.IconID = "export_exporttoxlsx_16x16office2013";
-                     //DevCommonHelper.SetButtonSetting(s, BtnType.ex);
                      s.ClientSideEvents.Click = "ExportClick";
+                     s.Styles.Style.Paddings.Padding = 0;
+                     s.Styles.Style.CssClass = "FilterButton";
+                 });
+             });
+
+             settings.Items.Add(i =>
+             {
+                 i.Name = "BtnMonthClose";
+                 i.ShowCaption = DefaultBoolean.False;
+                 i.Width = Unit.Percentage(8);
+                 i.NestedExtension().Button(s =>
+                 {
+                     s.Width = 120;
+                     s.Text = "設定月結";
+                     //s.Images.Image.IconID = "export_exporttoxlsx_16x16office2013";
+                     s.ClientSideEvents.Click = "BtnMonthCloseClick";
                      s.Styles.Style.Paddings.Padding = 0;
                      s.Styles.Style.CssClass = "FilterButton";
                  });
@@ -54,3 +69,80 @@
     </form>
 </div>
 
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "PopSetMonthClose";
+        settings.Width = 360;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "月結";
+        settings.Styles.Header.Font.Size = 14;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("ModalMode", "PopupControl", FormMethod.Post, new { id = "popupForm", @class = "edit_form" }))
+            {
+                Html.DevExpress().FormLayout(s =>
+                {
+                    FormLayoutHelper.GetSearchSetting(s, "ModalModeFormLayout", 1, 360);
+
+                    s.Items.Add(i =>
+                    {
+                        i.Name = "Date";
+                        i.Caption = "日期";
+                        i.Width = Unit.Percentage(100);
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("YearMonthSelector", "Utility");
+                        });
+                    });
+
+                    s.Items.Add(i =>
+                    {
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.Width = Unit.Percentage(100);
+                        i.SetNestedContent(() =>
+                        {
+                            ViewContext.Writer.Write("<div style='float:right'>");
+
+                            Html.DevExpress().Button(ss =>
+                            {
+                                ss.Name = "BtnRun";
+                                ss.Text = "確認";
+                                ss.Width = 80;
+                                ss.Styles.Style.Paddings.Padding = 0;
+                                ss.ClientSideEvents.Click = "SetRunClick";
+                            }).Render();
+
+                            Html.DevExpress().Button(ss =>
+                            {
+                                ss.Name = "BtnCancel";
+                                ss.Text ="取消";
+                                ss.Width = 80;
+                                ss.Styles.Style.Paddings.Padding = 0;
+                                ss.ClientSideEvents.Click = "SetCancelClick";
+                                ss.Style[HtmlTextWriterStyle.MarginLeft] = "10px";
+                            }).Render();
+
+                            ViewContext.Writer.Write("</div>");
+                        });
+                    });
+
+                    s.Items.Add(i =>
+                    {
+                        i.Name = "errorMassageLabel";
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.Width = Unit.Percentage(100);
+                        i.NestedExtension().Label(lb => { lb.Name = "errorMassageLabel"; lb.ControlStyle.ForeColor = System.Drawing.Color.Red; });
+                    });
+
+                }).Render();
+            }
+        });
+    }).GetHtml()

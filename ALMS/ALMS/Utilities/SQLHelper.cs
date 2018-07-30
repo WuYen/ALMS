@@ -44,6 +44,37 @@ namespace ALMS.Utilities
 
             return dt;
         }
+        public string ExecuteCommand(string procedureName, List<SqlParameter> sqlParameters)
+        {
+            var errMsg = "";
+            try
+            {
+                var conn = _entity.Database.Connection;
+                var connectionState = conn.State;
+                if (connectionState != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = procedureName;
+                    cmd.Parameters.AddRange(sqlParameters.ToArray());
+                    cmd.CommandTimeout = 60;
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                errMsg = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                errMsg = SQLHelper.GetSQLMessage(ex);
+            }
+            return errMsg;
+        }
 
         public DataSet GetDataSet(string procedureName, List<SqlParameter> sqlParameters)
         {
@@ -86,7 +117,7 @@ namespace ALMS.Utilities
             else
             {
                 return GetSQLMessage(exception.InnerException);
-            }  
+            }
         }
 
         public string GetDbEntityValidationExceptionMessage(System.Data.Entity.Validation.DbEntityValidationException ex)
@@ -184,6 +215,47 @@ namespace ALMS.Utilities
         //        }
         //    }
         //    return ds;
+        //}
+        //public void ExecuteCommand(string commandText, System.Data.Entity.DbContextTransaction trans = null)
+        //{
+        //    if (trans == null) //無交易單獨呼叫StoreProcedure
+        //    {
+        //        using (_happyRecome_PublicEntities = new HappyRecome_PublicEntities())
+        //        {
+        //            var conn = _happyRecome_PublicEntities.Database.Connection;
+        //            var connectionState = conn.State;
+        //            if (connectionState != ConnectionState.Open)
+        //            {
+        //                conn.Open();
+        //            }
+
+        //            using (var cmd = conn.CreateCommand())
+        //            {
+        //                cmd.CommandType = CommandType.Text;
+        //                cmd.CommandText = commandText;
+        //                cmd.CommandTimeout = 60;
+        //                cmd.ExecuteNonQuery();
+        //            }
+        //        }
+        //    }
+        //    else   //交易時呼叫StoreProcedure
+        //    {
+        //        var conn = _happyRecome_PublicEntities.Database.Connection;
+        //        conn = trans.UnderlyingTransaction.Connection;
+        //        var connectionState = conn.State;
+        //        if (connectionState != ConnectionState.Open)
+        //        {
+        //            conn.Open();
+        //        }
+
+        //        using (var cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = commandText;
+        //            cmd.CommandTimeout = 60;
+        //            cmd.Transaction = trans.UnderlyingTransaction;
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
         //}
 
     }

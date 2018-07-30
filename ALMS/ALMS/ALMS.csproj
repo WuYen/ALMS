@@ -261,6 +261,7 @@
     <Content Include="Views\RP04\_Grid.cshtml" />
     <Content Include="Views\RP04\_SearchForm.cshtml" />
     <Content Include="Views\RP04\Index.cshtml" />
+    <Content Include="Views\Utility\_YearMonthSelector.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

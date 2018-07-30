@@ -23,9 +23,7 @@
     <script>
         var otherHeight = 123;
         function UpdateGridHeight(s, e) {
-            //console.log("UpdateGridHeight: "+otherHeight)
             if (window.GridView && e.pane.name == 'ContentCenter') {
-                console.log("UpdateGridHeight: " + otherHeight)
                 GridView.SetHeight(e.pane.GetClientHeight() - otherHeight);
             }
         }
@@ -90,7 +88,7 @@
         }
 
         function ShowSuccess() {
-            alertify.success("Success");
+            alertify.success("成功");
         }
     </script>
 </body>

@@ -1,0 +1,67 @@
+﻿<script type="text/javascript">
+    function OnDateEditInit(s, e) {
+        var calendar = s.GetCalendar();
+        var fastNav = calendar.fastNavigation;
+        calendar.owner = s;
+        calendar.SetVisible(false);
+
+        var confirmDateSelection = function () {
+            var parentDateEdit = this.calendar.owner;
+            var currentDate = new Date(this.activeYear, this.activeMonth || 0, 1);
+            parentDateEdit.SetDate(currentDate);
+            parentDateEdit.HideDropDown();
+        };
+
+        var cancelDateSelection = function () {
+            var parentDateEdit = this.calendar.owner;
+            parentDateEdit.HideDropDown();
+        };
+
+        var oldYearClick = fastNav.OnYearClick.bind(fastNav);
+        var yearClick = function (index) {
+            oldYearClick(index);
+            confirmDateSelection.call(this);
+        }
+        fastNav.OnYearClick = yearClick;
+
+        fastNav.OnOkClick = confirmDateSelection.bind(fastNav);
+        calendar.CancelFastNavigation = cancelDateSelection.bind(fastNav);
+    }
+
+    function OnDateEditDropDown(s, e) {
+        var calendar = s.GetCalendar();
+        var fastNav = calendar.fastNavigation;
+        fastNav.activeView = calendar.GetView(0, 0);
+        fastNav.Prepare();
+        fastNav.PrepareMonthList();
+        fastNav.PrepareYearList();
+
+        fastNav.GetPopup().popupVerticalAlign = "Below";
+        fastNav.GetPopup().ShowAtElement(s.GetMainElement())
+    }
+</script>
+@Html.DevExpress().DateEdit(settings =>
+{
+    settings.Name = ViewBag.ExtensionName as string;
+    settings.Date = DateTime.Now;
+    settings.Height = 30;
+    settings.Properties.DisplayFormatInEditMode = true;
+    if (ViewBag.Type == "year")
+    {
+        settings.Properties.DisplayFormatString = "yyyy";
+        settings.Properties.EditFormatString = "yyyy";
+    }
+    else
+    {
+        settings.Properties.DisplayFormatString = "yyyy/MM";
+        settings.Properties.EditFormatString = "yyyy/MM";
+    }
+
+
+    settings.Properties.ClientSideEvents.DropDown = "OnDateEditDropDown";
+    settings.Properties.ClientSideEvents.Init = "OnDateEditInit";
+
+    settings.Properties.CalendarProperties.EnableYearNavigation = true;
+
+    settings.Width = Unit.Percentage(100);
+}).GetHtml()

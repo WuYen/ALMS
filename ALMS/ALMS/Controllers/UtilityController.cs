@@ -28,5 +28,12 @@ namespace ALMS.Controllers
             }
             return PartialView("_BA01ALookUpGrid");
         }
+
+        public ActionResult YearMonthSelector(string type = "Month", string extensionName= "DateSelector")
+        {
+            ViewBag.Type = type;
+            ViewBag.ExtensionName = extensionName;
+            return PartialView("_YearMonthSelector");
+        }
     }
 }

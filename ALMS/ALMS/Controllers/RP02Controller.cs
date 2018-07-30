@@ -41,5 +41,22 @@ namespace ALMS.Controllers
             }
             return data;
         }
+
+        public ActionResult SetMonthClose(DateTime? DateSelector)
+        {
+            if (!DateSelector.HasValue)
+            {
+                return Content("請選擇日期");
+            }
+            else
+            {
+                var result = _Service.SetMonthClose(DateSelector.Value.ToString("yyyyMMdd"));
+                if (result != "")
+                {
+                    return Content(result);
+                }
+                return Content("成功");
+            }
+        }
     }
 }
