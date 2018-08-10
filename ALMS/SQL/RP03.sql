@@ -16,7 +16,7 @@ drop procedure SP_ALMS_RP03
 go
 
 CREATE PROCEDURE SP_ALMS_RP03 
-       @ACC_NO_Digit  varchar(01)='4',   /* ACC_NO位數 */
+       @ACC_NO_Digit  varchar(01)='7',   /* ACC_NO位數 */
        @Type  varchar(10),   /* 查詢條件-類別A、B(A 稅:1、2, B 財:2、3) DA03A*/
        @BEG_DT  varchar(10),   /* 查詢條件-起始日期 20180101 */
        @END_DT  varchar(10)   /* 查詢條件-結束日期 20180331 */       
@@ -42,7 +42,7 @@ BEGIN
 
 	CREATE TABLE #DB
 	(
-		ACC_NO nvarchar(5),    /*科目編號*/
+		ACC_NO nvarchar(7),    /*科目編號*/
 		ACC_NM nvarchar(50),   /*科目名稱*/
 		ACC_TP varchar(2),     /*1: 借/ 2: 貸*/
 		CUR_MY numeric(19,4),  /*本期金額*/
@@ -53,7 +53,7 @@ BEGIN
 	INSERT #DB
 	(ACC_NO,ACC_NM,ACC_TP,CUR_MY,TOT_MY)
 	select left(B.ACC_NO,@ACC_NO_Digit),B.ACC_NM,B.DA01A_ID,
-		case when B.DA01A_ID = 1 then isnull(SUM(A.DEB_MY - A.CRE_MY),0)
+		case when B.DA01A_ID = 1 then SUM(isnull(A.DEB_MY,0) - isnull(A.CRE_MY,0))
 		else isnull(SUM(A.CRE_MY),0) end as 本期金額, 0
     FROM [ALMS].[dbo].[TR01A] as A
 	left join BA01A as B on A.BA01A_ID = B.BA01A_ID

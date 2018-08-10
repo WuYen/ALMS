@@ -7,7 +7,7 @@ GO
 -- Author:		WYP
 -- Create date: 2018/07/20
 -- Description:	ALMS-試算表
--- EXEC SP_ALMS_RP02 @BEG_DT='20180701',@END_DT='20180731'
+-- EXEC SP_ALMS_RP02 @BEG_DT='20180501',@END_DT='20180531'
 -- =============================================
 
 IF exists(select name FROM sysobjects 
@@ -16,7 +16,7 @@ drop procedure SP_ALMS_RP02
 go
 
 CREATE PROCEDURE SP_ALMS_RP02 
-       @ACC_NO_Digit  varchar(01)='4',   /* ACC_NO位數 */
+       @ACC_NO_Digit  varchar(01)='7',   /* ACC_NO位數 */
        @BEG_DT  varchar(10),   /* 查詢條件-起始日期 20180101 */
        @END_DT  varchar(10)   /* 查詢條件-結束日期 20180331 */       
 AS
@@ -31,7 +31,7 @@ BEGIN
 	(
 		ACC_YY varchar(10),    /*会计年度 2015*/
 		ACC_DT nvarchar(60),   /*会计期间*/
-		ACC_NO nvarchar(5),    /*科目編號*/
+		ACC_NO nvarchar(7),    /*科目編號*/
 		ACC_NM nvarchar(50),   /*科目名稱*/
 		LEV_QT varchar(2),     /*級數*/
 		BEG_DEB numeric(19,4),    /*期初借方*/
@@ -45,11 +45,11 @@ BEGIN
 	-- 建立 [本月借貸]
 	INSERT #DB
 	(ACC_YY,ACC_DT,ACC_NO,ACC_NM,LEV_QT,BEG_DEB,BEG_CRE,CUR_DEB,CUR_CRE,END_DEB,END_CRE)
-	select left(A.TRN_DT,4), @ACC_DT,left(B.ACC_NO,@ACC_NO_Digit),B.ACC_NM,@ACC_NO_Digit,0,0,isnull(SUM(A.DEB_MY),0) as 本期借,isnull(SUM(A.CRE_MY),0) as 本期貸,0,0
+	select left(A.TRN_DT,4), @ACC_DT,left(B.ACC_NO,@ACC_NO_Digit),B.ACC_NM,B.LEV_QT,0,0,isnull(SUM(A.DEB_MY),0) as 本期借,isnull(SUM(A.CRE_MY),0) as 本期貸,0,0
     FROM [ALMS].[dbo].[TR01A] as A
 	left join BA01A as B on A.BA01A_ID = B.BA01A_ID
 	where A.TRN_DT between @BEG_DT and @END_DT
-	Group by left(B.ACC_NO,@ACC_NO_Digit), left(A.TRN_DT,4),B.ACC_NM
+	Group by left(B.ACC_NO,@ACC_NO_Digit), left(A.TRN_DT,4),B.ACC_NM,B.LEV_QT
 
 	-- 更新 [期初借方]
 	UPDATE #DB SET BEG_DEB = B.DEB_MY
@@ -71,13 +71,13 @@ BEGIN
 	FROM #DB 
 	WHERE left(#DB.ACC_NO,1) in('2','3')
 
-	-- 20180728 插入 [上期有期初,本月沒交易]
+	-- 20180728 插入 [上期有期初,本月沒交易] 20180811 修復BUG:會重複插入相同會計科目
 	INSERT #DB
 	(ACC_YY,ACC_DT,ACC_NO,ACC_NM,LEV_QT,BEG_DEB,BEG_CRE,CUR_DEB,CUR_CRE,END_DEB,END_CRE)
-	select left(A.TRN_DT,4), @ACC_DT,left(B.ACC_NO,@ACC_NO_Digit),B.ACC_NM,@ACC_NO_Digit,A.DEB_MY as 前借,A.CRE_MY as 前貸,0 as 本期借,0 as 本期貸,A.DEB_MY as 末借,A.CRE_MY as 末貸
+	select left(A.TRN_DT,4), @ACC_DT,left(B.ACC_NO,7),B.ACC_NM,B.LEV_QT,A.DEB_MY as 前借,A.CRE_MY as 前貸,0 as 本期借,0 as 本期貸,A.DEB_MY as 末借,A.CRE_MY as 末貸
     FROM [ALMS].[dbo].[TR01X] as A
 	left join BA01A as B on A.ACC_NO = B.ACC_NO
-	where A.TRN_DT = @PRE_DT	
+	where A.TRN_DT = @PRE_DT and A.ACC_NO not in(select ACC_NO from #DB)
 	
 	select ACC_YY,ACC_DT,ACC_NO,ACC_NM,LEV_QT,BEG_DEB,BEG_CRE,CUR_DEB,CUR_CRE,END_DEB,END_CRE from #DB order by ACC_NO
 END

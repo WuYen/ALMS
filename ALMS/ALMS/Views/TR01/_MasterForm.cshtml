@@ -43,7 +43,7 @@
     });
     settings.Items.Add(i =>
     {
-        FormLayoutHelper.SetItemBasicSetting(i, "BA02A_ID", "廠商");
+        FormLayoutHelper.SetItemBasicSetting(i, "BA02A_ID", "公司");
         i.NestedExtension().ComboBox(s =>
         {
             s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
@@ -57,7 +57,7 @@
 
     settings.Items.Add(i =>
     {
-        i.Caption = "客戶";
+        i.Caption = "聯絡人";
         i.SetNestedContent(() =>
         {
             Html.RenderPartial("_BA02BComboBox");

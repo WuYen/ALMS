@@ -16,7 +16,7 @@ drop procedure SP_ALMS_MonthEndToBeg
 go
 
 CREATE PROCEDURE SP_ALMS_MonthEndToBeg 
-       @ACC_NO_Digit  varchar(01)='4',   /* ACC_NO位數 */
+       @ACC_NO_Digit  varchar(01)='7',   /* ACC_NO位數 */
        @BEG_DT  varchar(8)   /* 查詢條件-起始日期 20180701 */
 AS
 BEGIN
@@ -28,7 +28,7 @@ BEGIN
 	CREATE TABLE #DB
 	(
 		TRN_DT varchar(10),     /*時間*/
-		ACC_NO nvarchar(5),     /*科目編號*/
+		ACC_NO nvarchar(7),     /*科目編號*/
 		BEG_DEB numeric(19,4),  /*期初借方*/
 		BEG_CRE numeric(19,4),  /*期初贷方*/
 		CUR_DEB numeric(19,4),  /*本期发生借方*/

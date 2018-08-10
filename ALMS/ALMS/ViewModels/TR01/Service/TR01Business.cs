@@ -128,7 +128,7 @@ namespace ALMS.ViewModels.TR01.Service
             {
                 result.Message += "明細資料已被刪除<br/>請重新整理<br/>";
             }
-            result.Message += ValidateBalance(values.Update, values.Insert);
+            result.Message += ValidateBalance(values.Update, values.Insert, fakeUpdateList);
 
             if (!ModelState.IsValid)
             {
@@ -153,11 +153,11 @@ namespace ALMS.ViewModels.TR01.Service
             return result;
         }
 
-        private static string ValidateBalance(List<TR01BModel> update, List<TR01BModel> insert)
+        private static string ValidateBalance(List<TR01BModel> update, List<TR01BModel> insert, List<TR01A> fakeUpdateList)
         {
             string errMsg = "";
-            var sumCredit = update.Sum(x => x.CRE_MY) + insert.Sum(x => x.CRE_MY);
-            var sumDebit = update.Sum(x => x.DEB_MY) + insert.Sum(x => x.DEB_MY);
+            var sumCredit = update.Sum(x => x.CRE_MY) + insert.Sum(x => x.CRE_MY) + fakeUpdateList.Sum(x => x.CRE_MY);
+            var sumDebit = update.Sum(x => x.DEB_MY) + insert.Sum(x => x.DEB_MY) + fakeUpdateList.Sum(x => x.DEB_MY);
             if (sumCredit.HasValue && sumDebit.HasValue)
             {
                 if (sumCredit.Value != sumDebit.Value)

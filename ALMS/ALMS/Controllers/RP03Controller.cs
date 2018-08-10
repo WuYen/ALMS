@@ -48,10 +48,6 @@ namespace ALMS.Controllers
 
         private DataTable GetData(SearchViewModel search, bool reload)
         {
-            search.Type = "";
-            search.DateBeg = new DateTime(2018, 08, 01);
-            search.DateEnd = new DateTime(2018, 08, 31);
-
             var data = Session["RP03Data"] as DataTable;
             if (reload || data == null)
             {

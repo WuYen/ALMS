@@ -29,6 +29,5 @@ namespace ALMS.Models
         public Nullable<System.DateTime> CREATE_DATE { get; set; }
         public string UPDATE_USER { get; set; }
         public Nullable<System.DateTime> UPDATE_DATE { get; set; }
-        public string ACT_YN { get; set; }
     }
 }

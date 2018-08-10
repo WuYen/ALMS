@@ -70,7 +70,7 @@
         settings.Columns.Add(column =>
         {
             column.FieldName = "BA02A_ID";
-            column.Caption = "廠商";
+            column.Caption = "公司";
             column.EditorProperties().ComboBox(p =>
             {
                 p.ValueField = "BA02A_ID";
@@ -82,7 +82,6 @@
         settings.Columns.Add(column =>
         {
             column.FieldName = "BA02B_ID";
-            column.Caption = "客戶";
             column.EditorProperties().ComboBox(p =>
             {
                 p.ValueField = "BA02B_ID";

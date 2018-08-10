@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2e851d668d044c93b2bebc8bf64daaa8" Name="Diagram1">
-        <EntityTypeShape EntityType="EntityModel.BA01A" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntityModel.BA02A" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntityModel.BA02B" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntityModel.BA03A" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntityModel.BA04A" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EntityModel.DA01A" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="EntityModel.DA02A" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="EntityModel.DA03A" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="EntityModel.TR01A" Width="1.5" PointX="2.75" PointY="8.75" />
+      <Diagram DiagramId="2e851d668d044c93b2bebc8bf64daaa8" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="EntityModel.BA02A" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityModel.BA02B" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityModel.BA03A" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityModel.BA04A" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityModel.DA01A" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EntityModel.DA02A" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EntityModel.DA03A" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EntityModel.TR01A" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="EntityModel.BA01A" Width="1.5" PointX="0.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
